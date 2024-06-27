@@ -30,19 +30,19 @@ function Home() {
           menuOpen ? "flex" : "hidden"
         } flex-col space-y-6 xl:space-y-0 xl:space-x-6 xl:flex xl:flex-row items-center w-full xl:w-auto mt-4 xl:mt-0`}
       >
-        <p className="text-gray-500">Men</p>
-        <p className="text-gray-500">Women</p>
-        <p className="text-gray-500">Kids</p>
+        <p className="text-gray-500 cursor-pointer">Men</p>
+        <p className="text-gray-500 cursor-pointer">Women</p>
+        <p className="text-gray-500 cursor-pointer">Kids</p>
       </div>
 
       <div
         className={`${
           menuOpen ? "flex" : "hidden"
-        } flex-col space-y-6 xl:space-y-0 xl:space-x-16 xl:flex xl:flex-row items-center w-full xl:w-auto mt-4 xl:mt-0`}
+        } flex-col space-y-6 xl:space-y-0 xl:space-x-10 xl:flex xl:flex-row items-center w-full xl:w-auto mt-4 xl:mt-0`}
       >
-        <p className="text-gray-500">Login</p>
-        <p className="text-gray-500">Contact</p>
-        <div className=" hover:bg-gray-200 flex gap-2 text-gray-500 rounded-full cursor-pointer">
+        <p className="text-gray-500 cursor-pointer">Login</p>
+        <p className="text-gray-500 cursor-pointer">Contact</p>
+        <div className="flex gap-2 text-gray-500 rounded-full cursor-pointer">
           <FaShoppingCart size={24} /> <p>Cart</p>
         </div>
       </div>

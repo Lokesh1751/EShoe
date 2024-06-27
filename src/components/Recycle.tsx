@@ -11,7 +11,7 @@ function Recycle() {
           commitment to a greener future through responsible shoe recycling.
           Together, let's make every step count towards a sustainable world
         </p>
-        <div className="flex flex-row flex-wrap gap-10">
+        <div className="flex flex-row justify-center flex-wrap gap-10 xl:justify-normal">
           <img
             src="https://websitedemos.net/recycled-shoe-store-04/wp-content/uploads/sites/983/2021/11/recycled-shoe-badge-3.svg"
             alt=""

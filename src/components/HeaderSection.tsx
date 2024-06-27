@@ -12,8 +12,8 @@ function HeaderSection() {
       <h1 className="text-white text-5xl mb-4">Love the Planet <br /> we walk on</h1>
       <p className="text-2xl text-white mb-6">Step into Style: Discover Your Perfect Pair Today!</p>
       <div className="flex space-x-4">
-        <button className="bg-white text-black py-2 px-4 rounded-md">Shop Men</button>
-        <button className="bg-white text-black py-2 px-4 rounded-md">Shop Women</button>
+        <button className="bg-white text-black py-2 px-4 rounded-md hover:bg-black hover:text-white">Shop Men</button>
+        <button className="bg-white text-black py-2 px-4 rounded-md hover:bg-black hover:text-white">Shop Women</button>
       </div>
     </div>
   );

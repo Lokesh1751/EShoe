@@ -9,6 +9,7 @@ import Recycle from "@/components/Recycle";
 import CompanyMoto from "@/components/CompanyMoto";
 import Services from "@/components/Services";
 import Footer from "@/components/Footer";
+import NewArrivels from "@/components/NewArrivels";
 export default function Home() {
   return (
     <div>
@@ -20,6 +21,7 @@ export default function Home() {
       <Process />
       <PosterSection />
       <Recycle />
+      <NewArrivels/>
       <CompanyMoto />
       <Services />
       <hr className="ml-20 mr-20 mb-20" />
