@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 function PosterSection() {
   return (
@@ -11,7 +12,12 @@ function PosterSection() {
         }}
       >
         <h1 className="text-white text-3xl">Men</h1>
-        <h1 className="text-white text-l border-white border-2 p-3 w-[150px] text-center cursor-pointer hover:bg-white hover:text-black ">Shop Men</h1>
+        <Link href={"/Men"}>
+          {" "}
+          <h1 className="text-white text-l border-white border-2 p-3 w-[150px] text-center cursor-pointer hover:bg-white hover:text-black ">
+            Shop Men
+          </h1>
+        </Link>
       </div>
       <div
         className="w-full h-[500px] m-3  p-14 md:p-8 gap-4 flex flex-col justify-center items-center bg-cover bg-center xl:w-[40%]"
@@ -20,8 +26,13 @@ function PosterSection() {
           backgroundRepeat: "no-repeat",
         }}
       >
-         <h1 className="text-white text-3xl">Women</h1>
-         <h1 className="text-white text-l border-white border-2 p-3 w-[150px] text-center cursor-pointer hover:bg-white hover:text-black">Shop Women</h1>
+        <h1 className="text-white text-3xl">Women</h1>
+        <Link href={"/Women"}>
+          {" "}
+          <h1 className="text-white text-l border-white border-2 p-3 w-[150px] text-center cursor-pointer hover:bg-white hover:text-black">
+            Shop Women
+          </h1>
+        </Link>
       </div>
     </div>
   );

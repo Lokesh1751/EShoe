@@ -16,7 +16,7 @@ export default function Home() {
       <Main />
       <HeaderSection />
       <Logo />
-      <hr className="ml-20 mr-20 mb-20" />
+      <hr />
       <AboutUs />
       <Process />
       <PosterSection />
@@ -24,7 +24,7 @@ export default function Home() {
       <NewArrivels/>
       <CompanyMoto />
       <Services />
-      <hr className="ml-20 mr-20 mb-20" />
+      <hr/>
       <Footer />
     </div>
   );

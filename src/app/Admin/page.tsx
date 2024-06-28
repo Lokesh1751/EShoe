@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { FIRESTORE_DB } from "../../../firebase.config";
 import { collection, addDoc } from "firebase/firestore";
+import { FaHome } from "react-icons/fa";
+import Link from "next/link";
 
 function Admin() {
   const [itemName, setItemName] = useState("");
@@ -46,7 +48,20 @@ function Admin() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen ">
+    <div 
+      className='w-screen relative h-screen flex items-center justify-center' 
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+       <Link href={'/'}>
+       <div className="absolute top-10 left-10">
+      <FaHome size={34} color="white" />
+    </div>
+       </Link>
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-md bg-gray-100 rounded-lg shadow-lg p-6"
