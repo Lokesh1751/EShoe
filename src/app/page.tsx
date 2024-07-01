@@ -21,10 +21,10 @@ export default function Home() {
       <Process />
       <PosterSection />
       <Recycle />
-      <NewArrivels/>
+      <NewArrivels />
       <CompanyMoto />
       <Services />
-      <hr/>
+      <hr />
       <Footer />
     </div>
   );

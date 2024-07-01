@@ -4,7 +4,9 @@ function Process() {
   return (
     <div className="flex flex-col bg-[#F1F1EF] xl:m-10">
       <div className="flex flex-col items-center p-10 gap-10">
-        <h1 className="text-3xl font-bold text-center">See how your shoes are made</h1>
+        <h1 className="text-3xl font-bold text-center">
+          See how your shoes are made
+        </h1>
         <p className="text-xl text-gray-400 text-center max-w-4xl">
           Each pair of shoes starts its journey in our design studio, where our
           team of experienced designers meticulously plans every detail. From
@@ -17,7 +19,7 @@ function Process() {
           Join us in celebrating the art of shoemaking, where innovation meets
           tradition, and style meets conscience.
         </p>
-        <div className="flex flex-wrap justify-center items-center gap-10">
+        <div className="flex flex-wrap items-center">
           <div className="flex flex-col items-center w-64">
             <p className="text-[#F7B64E] text-2xl">01.</p>
             <h1 className="text-2xl font-semibold">Pet canvas</h1>
@@ -26,7 +28,7 @@ function Process() {
               nulla cursus.
             </p>
           </div>
-          <div className="flex flex-col items-center w-64">
+          <div className="flex flex-col justify-center items-center w-64 gap-2">
             <p className="text-[#F7B64E] text-2xl">02.</p>
             <h1 className="text-2xl font-semibold ml-14">
               Eco-friendly materials
@@ -38,7 +40,7 @@ function Process() {
           <img
             src="https://websitedemos.net/recycled-shoe-store-04/wp-content/uploads/sites/983/2021/11/recycled-shoe-store-how-shoes-are-made-image.png"
             alt=""
-            className="w-[500px] max-w-full"
+            className="w-[200px] ml-10 xl:ml-0"
           />
           <div className="flex flex-col items-center w-64">
             <p className="text-[#F7B64E] text-2xl">03.</p>

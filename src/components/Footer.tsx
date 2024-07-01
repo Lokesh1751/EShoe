@@ -7,8 +7,9 @@ function Footer() {
       <div className="flex flex-col gap-9">
         <h1 className="text-3xl">Eshoe</h1>
         <p className="text-lg text-gray-400 w-[320px] ">
-          Praesent eget tortor sit risus egestas nulla pharetra ornare quis
-          bibendum est bibendum sapien proin nascetur
+          Eshoe Company is dedicated to sustainable practices, including the
+          recycling of shoes. We believe in minimizing waste and maximizing
+          resources by refurbishing and repurposing footwear.
         </p>
       </div>
       <div className="flex flex-col gap-2">
