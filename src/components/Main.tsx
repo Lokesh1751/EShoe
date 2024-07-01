@@ -47,8 +47,6 @@ function Home() {
         </div>
       </div>
 
-    
-
       <div
         className={`${
           menuOpen ? "flex" : "hidden"
@@ -71,8 +69,10 @@ function Home() {
             <Link href={"/Login"}>Login</Link>
           </p>
         )}
-        <p className="text-gray-500 cursor-pointer"><Link href={'/Contact'}>Contact</Link></p>
-        <Link href={user ? '/Cart' : '/Login'}>
+        <p className="text-gray-500 cursor-pointer">
+          <Link href={"/FeedBacks"}>FeedBacks</Link>
+        </p>
+        <Link href={user ? "/Cart" : "/Login"}>
           <div className="flex gap-2 text-gray-500 rounded-full cursor-pointer">
             <FaShoppingCart size={24} /> <p>Cart</p>
           </div>

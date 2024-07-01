@@ -24,8 +24,8 @@ function Footer() {
           {" "}
           <p className="text-lg text-gray-400 w-[400px] ">Login</p>
         </Link>
-        <Link href={"/Contact"}>
-          <p className="text-lg text-gray-400 w-[400px] ">Contact Us</p>
+        <Link href={"/FeedBacks"}>
+          <p className="text-lg text-gray-400 w-[400px] ">FeedBacks</p>
         </Link>
       </div>
       <div className="flex flex-col gap-9 ">
