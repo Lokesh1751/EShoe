@@ -12,7 +12,7 @@ function Footer() {
           resources by refurbishing and repurposing footwear.
         </p>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-6">
         <h1 className="text-3xl">Shop</h1>
         <Link href={"/Men"}>
           {" "}
@@ -28,16 +28,23 @@ function Footer() {
         <Link href={"/FeedBacks"}>
           <p className="text-lg text-gray-400 w-[400px] ">FeedBacks</p>
         </Link>
+        <Link href={"/Recycle"}>
+          <p className="text-lg text-gray-400 w-[400px] ">Recycle Request</p>
+        </Link>
       </div>
-      <div className="flex flex-col gap-9 ">
-        <p className="text-gray-400">
+      <div className="flex flex-col gap-9 justify-between items-center">
+        <p className="text-gray-400 w-[270px] ">
           {" "}
-          © 2024 Recycled Shoe Store. Powered by Recycled Shoe Store.{" "}
+          © 2024 Recycled Shoe Store. All rights reserved. Designed and Powered
+          by Recycled Shoe Store, dedicated to sustainable practices in footwear
+          innovation and recycling, making every step count towards a greener
+          future.
         </p>
         <div>
           <img
             src="https://websitedemos.net/recycled-shoe-store/wp-content/uploads/sites/983/2021/11/payment-icons.png"
             alt=""
+            width={300}
           />
         </div>
       </div>

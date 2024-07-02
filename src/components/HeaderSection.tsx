@@ -28,6 +28,11 @@ function HeaderSection() {
             Shop Women
           </button>
         </Link>
+        <Link href={"/Kids"}>
+          <button className="bg-white text-black py-2 px-4 rounded-md hover:bg-black hover:text-white">
+            Shop Kid's
+          </button>
+        </Link>
       </div>
     </div>
   );

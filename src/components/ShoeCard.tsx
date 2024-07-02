@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  query,
-  where,
-  getDocs,
-  Firestore,
-  doc,
-  setDoc,
-  getDoc,
-} from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { FIRESTORE_DB, FIREBASE_AUTH } from "../../firebase.config";
 
 interface Shoe {
@@ -19,6 +8,8 @@ interface Shoe {
   url: string;
   price: string;
   gender: string;
+  sizes: string;
+  category: string;
 }
 
 interface ShoeCardProps {
@@ -87,8 +78,12 @@ function ShoeCard({ shoe }: ShoeCardProps) {
       />
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-2">{shoe.name}</h2>
-        <p className="text-gray-600">${shoe.price}</p>
+
+        <p className="text-red-600 text-lg font-bold">₹{shoe.price}</p>
+
         <p className="text-gray-600">{shoe.gender}</p>
+        <p className="text-gray-600">Sizes: {shoe.sizes}</p>
+        <p className="text-gray-600">Category: {shoe.category}</p>
         <button
           onClick={handleAddToCart}
           className="mt-4 bg-gradient-to-r from-blue-400 to-purple-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

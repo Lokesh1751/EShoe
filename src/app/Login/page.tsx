@@ -32,16 +32,16 @@ function Page() {
         backgroundRepeat: "no-repeat",
       }}
     >
-       <Link href={'/'}>
-       <div className="absolute top-10 left-10">
-      <FaHome size={34} color="white" />
-    </div>
-       </Link>
+      <Link href={"/"}>
+        <div className="absolute top-10 left-10">
+          <FaHome size={34} color="white" />
+        </div>
+      </Link>
       <form
         onSubmit={adduser}
         className="bg-gray-100 rounded-lg shadow-lg p-8 w-full max-w-sm"
       >
-         <div className="flex items-center mb-4 ml-4 justify-center space-x-2">
+        <div className="flex items-center mb-4 ml-4 justify-center space-x-2">
           <h1 className="text-3xl">EShoe</h1>
           <img
             src="https://img.freepik.com/premium-photo/single-continuous-line-drawing-safety-hiking-boots_804788-5097.jpg"
@@ -94,11 +94,11 @@ function Page() {
           </button>
         </div>
         <button
-            type="button"
-            className="bg-gradient-to-r from-blue-400 to-purple-600 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6 "
-          >
-            <Link href={"/AdminLogin"}>You are a admin 👉🏻</Link>
-          </button>
+          type="button"
+          className="bg-gradient-to-r from-blue-400 to-purple-600 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6 "
+        >
+          <Link href={"/AdminLogin"}>You are a admin 👉🏻</Link>
+        </button>
       </form>
     </div>
   );

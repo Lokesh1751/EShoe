@@ -10,11 +10,12 @@ interface Shoe {
   url: string;
   price: string;
   gender: string;
-  sizes: string;
   [key: string]: any;
+  sizes: string;
   category: string;
 }
-function WoMen() {
+
+function Kids() {
   const [shoes, setShoes] = useState<Shoe[]>([]);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ function WoMen() {
         id: doc.id,
         ...doc.data(),
       })) as Shoe[]; // Type assertion
-      setShoes(shoes.filter((item) => item.gender === "Women"));
+      setShoes(shoes.filter((item) => item.gender === "Kids"));
     });
 
     // Clean up subscription on unmount
@@ -33,7 +34,7 @@ function WoMen() {
 
   return (
     <div
-      className="p-10 w-screen flex flex-col items-center justify-center"
+      className="p-10 w-screen flex flex-col items-center justify-center "
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
         backgroundSize: "cover",
@@ -41,7 +42,7 @@ function WoMen() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <h1 className="text-3xl font-bold mb-6 text-white">Women's Collection</h1>
+      <h1 className="text-3xl font-bold mb-6 text-white"> Kid's Collection</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
         {shoes.map((shoe) => (
           <ShoeCard key={shoe.id} shoe={shoe} />
@@ -51,4 +52,4 @@ function WoMen() {
   );
 }
 
-export default WoMen;
+export default Kids;

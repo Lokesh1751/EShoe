@@ -5,8 +5,9 @@ import {
   query,
   where,
   getDocs,
-  deleteDoc,
   doc,
+  setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { FIRESTORE_DB, FIREBASE_AUTH } from "../../../firebase.config";
 import { FaTrash } from "react-icons/fa";
@@ -69,16 +70,27 @@ const Cart: React.FC = () => {
   const handleDeleteCartItem = async (itemIndex: number) => {
     try {
       if (user && user.email) {
-        const itemIdToDelete = cartItems[itemIndex].id; // Get ID of item to delete
-        await deleteDoc(doc(FIRESTORE_DB, "carts", itemIdToDelete)); // Delete item from Firestore
-
-        // Update local state to reflect deletion
-        const updatedCartItems = cartItems.filter(
-          (item, index) => index !== itemIndex
+        const cartRef = doc(FIRESTORE_DB, "carts", user.email);
+        const cartSnapshot = await getDocs(
+          query(
+            collection(FIRESTORE_DB, "carts"),
+            where("email", "==", user.email)
+          )
         );
-        setCartItems(updatedCartItems);
 
-        console.log(`Item at index ${itemIndex} deleted successfully.`);
+        if (!cartSnapshot.empty) {
+          const cartDoc = cartSnapshot.docs[0];
+          const cartData = cartDoc.data();
+
+          const updatedItems = cartData.items.filter(
+            (_: any, index: any) => index !== itemIndex
+          );
+
+          await setDoc(cartRef, { ...cartData, items: updatedItems });
+
+          setCartItems(updatedItems);
+          console.log(`Item at index ${itemIndex} deleted successfully.`);
+        }
       }
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -115,7 +127,7 @@ const Cart: React.FC = () => {
           <ul>
             {cartItems.map((item, index) => (
               <li
-                key={item.id}
+                key={item.id + index} // Use unique key for each item
                 className="flex items-center justify-between border-b border-gray-200 py-4"
               >
                 <div className="flex items-center space-x-4">
@@ -127,7 +139,6 @@ const Cart: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-medium">{item.name}</h3>
                     <p className="text-gray-600">${item.price}</p>
-                    <p className="text-gray-600">Quantity: {item.quantity}</p>
                   </div>
                 </div>
                 <button
