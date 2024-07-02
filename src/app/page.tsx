@@ -12,11 +12,10 @@ import Footer from "@/components/Footer";
 import NewArrivels from "@/components/NewArrivels";
 export default function Home() {
   return (
-    <div className="ml-8 xl:ml-0">
+    <div className="m-0">
       <Main />
       <HeaderSection />
       <Logo />
-      <hr />
       <AboutUs />
       <Process />
       <PosterSection />
@@ -24,7 +23,6 @@ export default function Home() {
       <NewArrivels />
       <CompanyMoto />
       <Services />
-      <hr />
       <Footer />
     </div>
   );
