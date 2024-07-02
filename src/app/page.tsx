@@ -12,7 +12,7 @@ import Footer from "@/components/Footer";
 import NewArrivels from "@/components/NewArrivels";
 export default function Home() {
   return (
-    <div>
+    <div className="ml-8 xl:ml-0">
       <Main />
       <HeaderSection />
       <Logo />
