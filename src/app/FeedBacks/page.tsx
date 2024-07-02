@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { FIREBASE_AUTH, FIRESTORE_DB } from "../../../firebase.config";
-import { FaStar, FaRegStar, FaHome } from "react-icons/fa";
+import { FaStar, FaRegStar } from "react-icons/fa";
 import Link from "next/link";
 
 interface Feedback {
@@ -12,7 +12,7 @@ interface Feedback {
   comments: string;
 }
 
-function Page() {
+function FeedbackPage() {
   const [name, setName] = useState("");
   const [rating, setRating] = useState(1);
   const [comments, setComments] = useState("");
@@ -31,12 +31,11 @@ function Page() {
       const querySnapshot = await getDocs(
         collection(FIRESTORE_DB, "feedbacks")
       );
-      const feedbacksData: Feedback[] = [];
+      const fetchedFeedbacks: Feedback[] = [];
       querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        feedbacksData.push({ id: doc.id, ...data } as Feedback);
+        fetchedFeedbacks.push({ id: doc.id, ...doc.data() } as Feedback);
       });
-      setFeedbacks(feedbacksData);
+      setFeedbacks(fetchedFeedbacks);
     };
 
     fetchFeedbacks();
@@ -50,10 +49,14 @@ function Page() {
         rating,
         comments,
       });
+
+      // Update state with new feedback
       setFeedbacks([
         ...feedbacks,
         { id: Date.now().toString(), name, rating, comments },
       ]);
+
+      // Clear input fields after submission
       setName("");
       setRating(1);
       setComments("");
@@ -65,117 +68,112 @@ function Page() {
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
-      if (i <= rating) {
-        stars.push(<FaStar key={i} className="text-yellow-500" />);
-      } else {
-        stars.push(<FaRegStar key={i} className="text-yellow-500" />);
-      }
+      stars.push(
+        i <= rating ? (
+          <FaStar key={i} className="text-yellow-500" />
+        ) : (
+          <FaRegStar key={i} className="text-yellow-500" />
+        )
+      );
     }
     return stars;
   };
 
   return (
-    <div
-      className="w-screen relative h-screen flex flex-col  items-center justify-center xl:flex-row xl:gap-10"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <Link href={"/"}>
-        <div className="absolute top-10 left-10">
-          <FaHome size={34} color="white" />
-        </div>
-      </Link>
-      {user && (
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white p-6 rounded-lg mt-10 shadow-md w-full max-w-sm mb-8"
-        >
-          <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
-            Feedback Form
-          </h2>
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-gray-700 font-semibold mb-2"
-            >
+    <div className="max-w-full mx-auto px-10 py-12"  style={{
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }}>
+
+      {user ? (
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h1 className="text-2xl font-bold text-white">Add Your Feedback</h1>
+          <div className="flex flex-col text-white">
+            <label htmlFor="name" className="text-lg font-medium">
               Name
             </label>
             <input
               type="text"
               id="name"
+              placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
+              className="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="rating"
-              className="block text-gray-700 font-semibold mb-2"
-            >
+          <div className="flex flex-col">
+            <label htmlFor="rating"  className="text-lg font-medium text-white">
               Rating
             </label>
-            <select
+            <div className="flex items-center mt-1">{renderStars(rating)}</div>
+            <input
+              type="range"
               id="rating"
+              min={1}
+              max={5}
               value={rating}
-              onChange={(e) => setRating(Number(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            >
-              {[1, 2, 3, 4, 5].map((rate) => (
-                <option key={rate} value={rate}>
-                  {rate}
-                </option>
-              ))}
-            </select>
+              onChange={(e) => setRating(parseInt(e.target.value))}
+              className="w-full mt-2 focus:outline-none  focus:ring-blue-400 to-purple-600"
+            />
           </div>
-          <div className="mb-4">
-            <label
-              htmlFor="comments"
-              className="block text-gray-700 font-semibold mb-2"
-            >
+          <div className="flex flex-col">
+            <label htmlFor="comments" className="text-lg font-medium text-white">
               Comments
             </label>
             <textarea
               id="comments"
+              placeholder="Add your review"
               value={comments}
               onChange={(e) => setComments(e.target.value)}
-              rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
-            ></textarea>
+              rows={4}
+              className="border border-gray-300 rounded px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
           <button
             type="submit"
-            className="w-full bg-gradient-to-r px-16 from-blue-400 to-purple-600 text-white py-3 rounded-md hover:bg-blue-600 transition duration-300 shadow-md hover:shadow-lg"
+            className="bg-gradient-to-r from-blue-400 to-purple-600 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
           >
-            Submit
+            Submit Feedback
           </button>
         </form>
+      ) : (
+        <div className="text-lg font-medium text-center text-white">
+          <p>Please log in to submit feedback.</p>
+          <button
+            className="textwhite hover:underline mt-2 focus:outline-none"
+          >
+           <Link href={'/Login'}>Login </Link>
+          </button>
+        </div>
       )}
-      <div className="w-full max-w-2xl  bg-white p-6  rounded-lg shadow-md">
-        <h3 className="text-xl font-bold mb-4 text-gray-800 text-center">
-          Feedbacks
-        </h3>
-        <ul>
-          {feedbacks.map((feedback) => (
-            <li key={feedback.id} className="mb-4">
-              <div className="border-b pb-2 mb-2">
-                <p className="text-lg font-semibold">{feedback.name}</p>
-                <div className="flex">{renderStars(feedback.rating)}</div>
-                <p className="text-gray-600">Comments: {feedback.comments}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+
+      <div className="mt-8">
+        <h2 className="text-2xl font-semibold text-white">Recent Feedbacks</h2>
+        {feedbacks.length === 0 ? (
+          <p className="mt-4 text-lg text-white">No feedbacks yet.</p>
+        ) : (
+          <ul className="mt-4 space-y-4">
+            {feedbacks.map((feedback) => (
+              <li key={feedback.id} className="border rounded p-4">
+                <div className="flex items-center mb-2">
+                  <span className="text-lg font-semibold text-white">{feedback.name}</span>
+                  <div className="flex ml-2">
+                    {renderStars(feedback.rating)}
+                  </div>
+                </div>
+                <p className="text-white">{feedback.comments}</p>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );
 }
 
-export default Page;
+export default FeedbackPage;

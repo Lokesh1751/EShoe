@@ -30,7 +30,7 @@ function Page() {
 
   return (
     <div
-      className="w-screen relative h-screen flex items-center justify-center"
+      className="w-screen relative h-screen p-10 flex items-center justify-center"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
         backgroundSize: "cover",
