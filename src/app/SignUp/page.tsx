@@ -1,28 +1,43 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-import { FIREBASE_AUTH } from "../../../firebase.config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { FIREBASE_AUTH } from "../../../firebase.config";
 import { useRouter } from "next/navigation";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaEye, FaEyeSlash } from "react-icons/fa";
 
-function Page() {
+function SignUp() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [rpass, setrPass] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showRPassword, setShowRPassword] = useState(false); // State to toggle repeat password visibility
   const router = useRouter();
-  const adduser = async () => {
+
+  const adduser = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       if (pass === rpass) {
         await createUserWithEmailAndPassword(FIREBASE_AUTH, email, pass);
         router.push("/Login");
       } else {
-        alert("Passwords are not same!");
+        alert("Passwords are not the same!");
       }
     } catch (err) {
-      console.log(err);
+      console.error("Error signing up:", err);
     }
   };
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  // Toggle repeat password visibility
+  const toggleRPasswordVisibility = () => {
+    setShowRPassword(!showRPassword);
+  };
+
   return (
     <div
       className="w-screen relative h-screen flex items-center justify-center"
@@ -38,7 +53,10 @@ function Page() {
           <FaHome size={34} color="white" />
         </div>
       </Link>
-      <form className="bg-gray-100 rounded-lg shadow-lg p-8 w-full max-w-sm">
+      <form
+        onSubmit={adduser}
+        className="bg-gray-100 rounded-lg shadow-lg p-8 w-full max-w-sm"
+      >
         <div className="flex items-center mb-4 ml-4 justify-center space-x-2">
           <h1 className="text-3xl">EShoe</h1>
           <img
@@ -61,7 +79,7 @@ function Page() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-6 relative">
           <label
             htmlFor="password"
             className="block text-gray-700 font-bold mb-2"
@@ -69,34 +87,60 @@ function Page() {
             Password
           </label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"} // Toggle between text and password type
             id="password"
             name="password"
             className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter your password"
             onChange={(e) => setPass(e.target.value)}
           />
+          {pass && (
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 top-8 flex items-center pr-3 focus:outline-none"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash className="text-gray-400 hover:text-gray-600" />
+              ) : (
+                <FaEye className="text-gray-400 hover:text-gray-600" />
+              )}
+            </button>
+          )}
         </div>
-        <div className="mb-6">
+        <div className="mb-6 relative">
           <label
-            htmlFor="password"
+            htmlFor="rpassword"
             className="block text-gray-700 font-bold mb-2"
           >
             Repeat Password
           </label>
           <input
-            type="password"
-            id="password"
-            name="password"
+            type={showRPassword ? "text" : "password"} // Toggle between text and password type
+            id="rpassword"
+            name="rpassword"
             className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter your password"
+            placeholder="Repeat your password"
             onChange={(e) => setrPass(e.target.value)}
           />
+          {rpass && (
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 top-8 flex items-center pr-3 focus:outline-none"
+              onClick={toggleRPasswordVisibility}
+            >
+              {showRPassword ? (
+                <FaEyeSlash className="text-gray-400 hover:text-gray-600" />
+              ) : (
+                <FaEye className="text-gray-400 hover:text-gray-600" />
+              )}
+            </button>
+          )}
         </div>
         <div className="flex items-center justify-between">
           <button
+            type="submit"
             className="bg-gradient-to-r from-blue-400 to-purple-600 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            onClick={adduser}
           >
             Sign Up
           </button>
@@ -106,13 +150,13 @@ function Page() {
         </div>
         <button
           type="button"
-          className="bg-gradient-to-r from-blue-400 to-purple-600 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6 "
+          className="bg-gradient-to-r from-blue-400 to-purple-600 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6"
         >
-          <Link href={"/AdminLogin"}>You are a admin 👉🏻</Link>
+          <Link href={"/AdminLogin"}>Admin Login 👉🏻</Link>
         </button>
       </form>
     </div>
   );
 }
 
-export default Page;
+export default SignUp;

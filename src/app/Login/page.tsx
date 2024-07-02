@@ -2,13 +2,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FIREBASE_AUTH } from "../../../firebase.config";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { FaHome } from "react-icons/fa";
+import { FIREBASE_AUTH } from "../../../firebase.config";
+import { FaHome, FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Page() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const router = useRouter();
 
   const adduser = async (e: any) => {
@@ -20,6 +21,11 @@ function Page() {
       alert("Wrong credentials. Please try again."); // Alert for incorrect credentials
       console.log(err);
     }
+  };
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -60,10 +66,11 @@ function Page() {
             className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter your email"
             required
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-6">
+        <div className="mb-6 relative">
           <label
             htmlFor="password"
             className="block text-gray-700 font-bold mb-2"
@@ -71,13 +78,27 @@ function Page() {
             Password
           </label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"} // Toggle between text and password type
             id="password"
             name="password"
             className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             placeholder="Enter your password"
+            value={pass}
             onChange={(e) => setPass(e.target.value)}
           />
+          {pass && (
+            <button
+              type="button"
+              className="absolute inset-y-0 right-0 top-8 flex items-center pr-3 focus:outline-none"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash className="text-gray-400 hover:text-gray-600" />
+              ) : (
+                <FaEye className="text-gray-400 hover:text-gray-600" />
+              )}
+            </button>
+          )}
         </div>
         <div className="flex items-center justify-between">
           <button
@@ -95,9 +116,9 @@ function Page() {
         </div>
         <button
           type="button"
-          className="bg-gradient-to-r from-blue-400 to-purple-600 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6 "
+          className="bg-gradient-to-r from-blue-400 to-purple-600 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6"
         >
-          <Link href={"/AdminLogin"}>You are a admin 👉🏻</Link>
+          <Link href={"/AdminLogin"}>You are an admin 👉🏻</Link>
         </button>
       </form>
     </div>
