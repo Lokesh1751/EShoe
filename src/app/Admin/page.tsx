@@ -225,7 +225,7 @@ function Admin() {
           </p>
           <p
             onClick={() => router.push("/AdminLogin")} // Using router for navigation
-            className="text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out inline-block cursor-pointer"
+            className="text-white transition duration-300 ease-in-out inline-block cursor-pointer"
           >
             Login as Admin
           </p>

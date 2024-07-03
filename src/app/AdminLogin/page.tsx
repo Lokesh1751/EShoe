@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaEye, FaEyeSlash } from "react-icons/fa"; // Importing eye icons
 import Link from "next/link";
 import {
   collection,
@@ -17,9 +17,10 @@ export default function Adlogin() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const router = useRouter();
 
-  const nextChar = (char: any) => {
+  const nextChar = (char: string) => {
     const code = char.charCodeAt(0);
 
     // Handle lowercase letters
@@ -80,6 +81,11 @@ export default function Adlogin() {
     }
   };
 
+  // Function to toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div
       className="w-screen relative p-10 h-screen flex items-center justify-center"
@@ -123,7 +129,7 @@ export default function Adlogin() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-8">
+        <div className="mb-8 relative">
           <label
             htmlFor="password"
             className="block text-sm font-medium text-gray-700 mb-2"
@@ -131,13 +137,25 @@ export default function Adlogin() {
             Password
           </label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
             id="password"
-            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10"
             placeholder="Enter your password"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
           />
+          {pass && (
+            <div
+              className="absolute inset-y-0 right-0 top-7 pr-3 flex items-center cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? (
+                <FaEyeSlash className="text-gray-400" />
+              ) : (
+                <FaEye className="text-gray-400" />
+              )}
+            </div>
+          )}
         </div>
         <button
           type="button" // Use type="button" to prevent form submission
