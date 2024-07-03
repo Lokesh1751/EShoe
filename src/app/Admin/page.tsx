@@ -122,14 +122,14 @@ function Admin() {
           <FaHome size={34} color="white" />
         </div>
       </Link>
-      <Link href={"/Requests"}>
+      {loggedIn && <Link href={"/Requests"}>
         <div className="absolute top-10 cursor-pointer text-white right-10 flex items-center">
           <span className="mr-2 text-lg font-bold ">Recycle Requests</span>
           <span className="bg-red-700 text-white p-2 rounded-full flex items-center justify-center text-sm font-bold w-6 h-6">
             {requests.length}
           </span>
         </div>
-      </Link>
+      </Link>}
 
       {loggedIn ? (
         <form
