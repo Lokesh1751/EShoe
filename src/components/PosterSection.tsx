@@ -14,7 +14,7 @@ function PosterSection() {
         <h1 className="text-white text-3xl">Men</h1>
         <Link href={"/Men"}>
           {" "}
-          <h1 className="text-white text-l border-white border-2 p-3 w-[150px] text-center cursor-pointer hover:bg-white hover:text-black ">
+          <h1 className="text-white text-l border-white border-2 p-3 w-[150px] rounded-lg transition-all text-center cursor-pointer hover:bg-white hover:text-black ">
             Shop Men
           </h1>
         </Link>
@@ -29,7 +29,7 @@ function PosterSection() {
         <h1 className="text-white text-3xl">Women</h1>
         <Link href={"/Women"}>
           {" "}
-          <h1 className="text-white text-l border-white border-2 p-3 w-[150px] text-center cursor-pointer hover:bg-white hover:text-black">
+          <h1 className="text-white text-l border-white border-2 rounded-lg transition-all p-3 w-[150px] text-center cursor-pointer hover:bg-white hover:text-black">
             Shop Women
           </h1>
         </Link>
