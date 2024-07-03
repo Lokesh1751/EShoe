@@ -4,30 +4,38 @@ import { collection, addDoc } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebase.config";
 
 const RecyclingForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    address: "",
-    shoeType: "",
-    quantity: 1,
-    instructions: "",
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [shoeType, setShoeType] = useState("");
+  const [quantity, setQuantity] = useState(1);
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const handleNameChange = (e: any) => setName(e.target.value);
+  const handleEmailChange = (e: any) => setEmail(e.target.value);
+  const handleAddressChange = (e: any) => setAddress(e.target.value);
+  const handleShoeTypeChange = (e: any) => setShoeType(e.target.value);
+  const handleQuantityChange = (e: any) => setQuantity(e.target.value);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       const docRef = await addDoc(
         collection(FIRESTORE_DB, "recyclingRequests"),
-        formData
+        {
+          name,
+          email,
+          address,
+          shoeType,
+          quantity,
+          approved: false,
+          declined: false,
+        }
       );
+      setName("");
+      setEmail("");
+      setAddress("");
+      setShoeType("");
+      setQuantity(1);
       console.log("Recycling request submitted with ID: ", docRef.id);
       // Optionally, provide feedback to the user about successful submission
     } catch (error) {
@@ -60,8 +68,8 @@ const RecyclingForm = () => {
               type="text"
               id="name"
               name="name"
-              value={formData.name}
-              onChange={handleChange}
+              value={name}
+              onChange={handleNameChange}
               required
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
             />
@@ -77,8 +85,8 @@ const RecyclingForm = () => {
               type="email"
               id="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={handleEmailChange}
               required
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
             />
@@ -93,8 +101,8 @@ const RecyclingForm = () => {
             <textarea
               id="address"
               name="address"
-              value={formData.address}
-              onChange={handleChange}
+              value={address}
+              onChange={handleAddressChange}
               rows={3}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
             />
@@ -110,8 +118,8 @@ const RecyclingForm = () => {
               type="text"
               id="shoeType"
               name="shoeType"
-              value={formData.shoeType}
-              onChange={handleChange}
+              value={shoeType}
+              onChange={handleShoeTypeChange}
               required
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
             />
@@ -127,25 +135,9 @@ const RecyclingForm = () => {
               type="number"
               id="quantity"
               name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
+              value={quantity}
+              onChange={handleQuantityChange}
               min={1}
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="instructions"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Instructions
-            </label>
-            <textarea
-              id="instructions"
-              name="instructions"
-              value={formData.instructions}
-              onChange={handleChange}
-              rows={3}
               className="mt-1 p-2 border border-gray-300 rounded-md w-full"
             />
           </div>

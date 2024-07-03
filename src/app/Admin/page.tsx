@@ -1,7 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FIRESTORE_DB } from "../../../firebase.config";
-import { collection, addDoc, getDoc, doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDoc,
+  doc,
+  updateDoc,
+  onSnapshot,
+} from "firebase/firestore";
 import { FaHome } from "react-icons/fa";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -14,7 +21,18 @@ function Admin() {
   const [gender, setGender] = useState("");
   const [category, setCategory] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [requests, setRequests] = useState<RecyclingRequest[]>([]);
   const router = useRouter();
+  interface RecyclingRequest {
+    id: string;
+    name: string;
+    email: string;
+    address: string;
+    shoeType: string;
+    quantity: number;
+    approved: boolean;
+    declined: boolean;
+  }
 
   useEffect(() => {
     const fetchAdminStatus = async () => {
@@ -34,6 +52,22 @@ function Admin() {
     };
 
     fetchAdminStatus();
+  }, []);
+
+  useEffect(() => {
+    const userRef = collection(FIRESTORE_DB, "recyclingRequests");
+    const subs = onSnapshot(userRef, {
+      next: (snapshot) => {
+        const users = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<RecyclingRequest, "id">),
+        }));
+        setRequests(users);
+      },
+    });
+
+    // Cleanup subscription on unmount
+    return () => subs();
   }, []);
 
   const handleSubmit = async (e: any) => {
@@ -88,6 +122,15 @@ function Admin() {
           <FaHome size={34} color="white" />
         </div>
       </Link>
+      <Link href={"/Requests"}>
+        <div className="absolute top-10 cursor-pointer text-white right-10 flex items-center">
+          <span className="mr-2 text-lg font-bold ">Recycle Requests</span>
+          <span className="bg-red-700 text-white p-2 rounded-full flex items-center justify-center text-sm font-bold w-6 h-6">
+            {requests.length}
+          </span>
+        </div>
+      </Link>
+
       {loggedIn ? (
         <form
           onSubmit={handleSubmit}
