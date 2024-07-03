@@ -46,24 +46,24 @@ function Home() {
           </button>
         </div>
       </div>
-     
+
       <div
         className={`${
           menuOpen ? "flex" : "hidden"
         } flex-col space-y-6 xl:space-y-0 xl:space-x-10 xl:flex xl:flex-row items-center w-full xl:w-auto mt-4 xl:mt-0`}
       >
-         <div className="flex items-center mr-[0px] flex-col gap-6 cursor-pointer xl:flex-row xl:mr-[300px]">
-        <Link href={"/Men"}>
-          {" "}
-          <span className="text-gray-500 cursor-pointer">Men</span>
-        </Link>
-        <Link href={"/Women"}>
-          <span className="text-gray-500 cursor-pointer">Women</span>
-        </Link>
-        <Link href={"/Kids"}>
-          <span className="text-gray-500 cursor-pointer">Kids</span>
-        </Link>
-      </div>
+        <div className="flex items-center mr-[0px] flex-col gap-6 cursor-pointer xl:flex-row xl:mr-[300px]">
+          <Link href={"/Men"}>
+            {" "}
+            <span className="text-gray-500 cursor-pointer">Men</span>
+          </Link>
+          <Link href={"/Women"}>
+            <span className="text-gray-500 cursor-pointer">Women</span>
+          </Link>
+          <Link href={"/Kids"}>
+            <span className="text-gray-500 cursor-pointer">Kids</span>
+          </Link>
+        </div>
         {user ? (
           <div className="flex items-center space-x-2">
             <div className="bg-red-600 rounded-full w-10 h-10 flex items-center justify-center text-white text-xl">
