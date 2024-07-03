@@ -46,7 +46,7 @@ const RecyclingForm = () => {
 
   return (
     <div
-      className="w-screen relative h-screen flex flex-col items-center justify-center"
+      className="w-screen relative h-screen flex p-6 flex-col items-center justify-center"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
         backgroundSize: "cover",
@@ -54,7 +54,7 @@ const RecyclingForm = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="bg-white p-12 rounded-xl w-[500px]">
+      <div className="bg-white p-10 md:p-20  rounded-xl max-w-screen-md w-full">
         <h2 className="text-2xl font-bold mb-4">Recycling Request Form</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
