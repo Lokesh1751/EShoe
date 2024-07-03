@@ -27,13 +27,13 @@ function Home() {
   };
 
   return (
-    <div className="flex flex-col p-10 xl:flex-row xl:justify-between space-y-3 xl:space-y-0">
+    <div className="flex flex-col p-6 xl:flex-row xl:justify-between space-y-3 xl:space-y-0">
       <div className="flex flex-row justify-between items-center w-full xl:w-auto">
         <div className="flex items-center space-x-2">
-          <h1 className="text-3xl">EShoe</h1>
+          <h1 className="text-4xl">EShoe</h1>
           <img
             src="https://img.freepik.com/premium-photo/single-continuous-line-drawing-safety-hiking-boots_804788-5097.jpg"
-            className="w-14 h-12"
+            className="w-16 h-20"
             alt="Eshoe logo"
           />
         </div>
