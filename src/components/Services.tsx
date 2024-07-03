@@ -1,5 +1,5 @@
-import React from 'react';
-import { FaLock, FaShippingFast, FaUndo } from 'react-icons/fa';
+import React from "react";
+import { FaLock, FaShippingFast, FaUndo } from "react-icons/fa";
 
 function Features() {
   return (

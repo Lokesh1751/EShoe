@@ -80,15 +80,16 @@ function FeedbackPage() {
   };
 
   return (
-    <div className="max-w-full mx-auto px-10 py-12"  style={{
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-    }}>
-
+    <div
+      className="max-w-full mx-auto px-10 py-12"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       {user ? (
-        
         <form onSubmit={handleSubmit} className="space-y-4">
           <h1 className="text-2xl font-bold text-white">Add Your Feedback</h1>
           <div className="flex flex-col text-white">
@@ -106,7 +107,7 @@ function FeedbackPage() {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="rating"  className="text-lg font-medium text-white">
+            <label htmlFor="rating" className="text-lg font-medium text-white">
               Rating
             </label>
             <div className="flex items-center mt-1">{renderStars(rating)}</div>
@@ -121,7 +122,10 @@ function FeedbackPage() {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="comments" className="text-lg font-medium text-white">
+            <label
+              htmlFor="comments"
+              className="text-lg font-medium text-white"
+            >
               Comments
             </label>
             <textarea
@@ -144,10 +148,8 @@ function FeedbackPage() {
       ) : (
         <div className="text-lg font-medium text-center text-white">
           <p>Please log in to submit feedback.</p>
-          <button
-            className="textwhite hover:underline mt-2 focus:outline-none"
-          >
-           <Link href={'/Login'}>Login </Link>
+          <button className="textwhite hover:underline mt-2 focus:outline-none">
+            <Link href={"/Login"}>Login </Link>
           </button>
         </div>
       )}
@@ -161,7 +163,9 @@ function FeedbackPage() {
             {feedbacks.map((feedback) => (
               <li key={feedback.id} className="border rounded p-4">
                 <div className="flex items-center mb-2">
-                  <span className="text-lg font-semibold text-white">{feedback.name}</span>
+                  <span className="text-lg font-semibold text-white">
+                    {feedback.name}
+                  </span>
                   <div className="flex ml-2">
                     {renderStars(feedback.rating)}
                   </div>

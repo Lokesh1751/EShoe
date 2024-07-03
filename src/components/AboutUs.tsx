@@ -2,7 +2,7 @@ import React from "react";
 
 function AboutUs() {
   return (
-    <div className="flex flex-col p-4 xl:flex-row xl:space-x-20">
+    <div className="flex flex-col p-4 xl:flex-row xl:space-x-20 xl:m-6">
       <img
         src="https://websitedemos.net/recycled-shoe-store-04/wp-content/uploads/sites/983/2021/11/recycled-shoe-store-home-about-image.jpg"
         alt="About Us"

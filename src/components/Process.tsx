@@ -2,8 +2,8 @@ import React from "react";
 
 function Process() {
   return (
-    <div className="flex flex-col pl-10 bg-[#F1F1EF] xl:m-10">
-      <div className="flex flex-col items-center p-10 gap-10">
+    <div className="flex flex-col pl-0  bg-[#F1F1EF] xl:m-10">
+      <div className="flex flex-col items-center p-6 gap-10">
         <h1 className="text-3xl font-bold text-center">
           See how your shoes are made
         </h1>
@@ -19,7 +19,7 @@ function Process() {
           Join us in celebrating the art of shoemaking, where innovation meets
           tradition, and style meets conscience.
         </p>
-        <div className="flex flex-wrap items-center">
+        <div className="flex flex-wrap items-center pl-10">
           <div className="flex flex-col items-center w-64">
             <p className="text-[#F7B64E] text-2xl">01.</p>
             <h1 className="text-2xl font-semibold">Pet canvas</h1>

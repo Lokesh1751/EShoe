@@ -118,7 +118,7 @@ function Page() {
           type="button"
           className="bg-gradient-to-r from-blue-400 to-purple-600 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6"
         >
-          <Link href={"/AdminLogin"}>You are an admin 👉🏻</Link>
+          <Link href={"/AdminLogin"}>Admin Login 👉🏻</Link>
         </button>
       </form>
     </div>

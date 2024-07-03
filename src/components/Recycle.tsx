@@ -23,8 +23,7 @@ function Recycle() {
           <img
             src="https://websitedemos.net/recycled-shoe-store-04/wp-content/uploads/sites/983/2021/11/recycled-shoe-badge-1.svg"
             alt=""
-            
-          /> 
+          />
         </div>
       </div>
       <img
