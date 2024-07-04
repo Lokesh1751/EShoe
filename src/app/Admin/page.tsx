@@ -22,6 +22,7 @@ function Admin() {
   const [category, setCategory] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [requests, setRequests] = useState<RecyclingRequest[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const router = useRouter();
   interface RecyclingRequest {
     id: string;
@@ -33,7 +34,18 @@ function Admin() {
     approved: boolean;
     declined: boolean;
   }
+  interface OrderItem {
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+    url: string;
+  }
 
+  interface Order {
+    email: string;
+    orderItems: OrderItem[];
+  }
   useEffect(() => {
     const fetchAdminStatus = async () => {
       try {
@@ -63,6 +75,21 @@ function Admin() {
           ...(doc.data() as Omit<RecyclingRequest, "id">),
         }));
         setRequests(users);
+      },
+    });
+
+    // Cleanup subscription on unmount
+    return () => subs();
+  }, []);
+  useEffect(() => {
+    const userRef = collection(FIRESTORE_DB, "orders");
+    const subs = onSnapshot(userRef, {
+      next: (snapshot) => {
+        const users = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...(doc.data() as Omit<Order, "id">),
+        }));
+        setOrders(users);
       },
     });
 
@@ -122,14 +149,27 @@ function Admin() {
           <FaHome size={34} color="white" />
         </div>
       </Link>
-      {loggedIn && <Link href={"/Requests"}>
-        <div className="absolute top-10 cursor-pointer text-white right-10 flex items-center">
-          <span className="mr-2 text-lg font-bold ">Recycle Requests</span>
-          <span className="bg-red-700 text-white p-2 rounded-full flex items-center justify-center text-sm font-bold w-6 h-6">
-            {requests.length}
-          </span>
+      {loggedIn && (
+        <div>
+          <Link href={"/Requests"}>
+          <div className="absolute top-10 cursor-pointer text-black bg-white p-1 rounded-lg right-10 flex items-center">
+            <span className="mr-2 text-lg font-bold ">Recycle Requests</span>
+            <span className="bg-red-700 text-white p-2 rounded-full flex items-center justify-center text-sm font-bold w-6 h-6">
+              {requests.length}
+            </span>
+          </div>
+         
+        </Link>
+        <Link href={'/Orders'}>
+         <div className="absolute top-20 cursor-pointer text-black bg-white p-1 rounded-lg m-2 right-20 flex items-center">
+            <span className="mr-2 text-lg font-bold ">Orders</span>
+            <span className="bg-red-700 text-white p-2 rounded-full flex items-center justify-center text-sm font-bold w-6 h-6">
+              {orders.length}
+            </span>
+          </div>
+        </Link>
         </div>
-      </Link>}
+      )}
 
       {loggedIn ? (
         <form

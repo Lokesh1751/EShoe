@@ -8,6 +8,7 @@ import {
   doc,
   setDoc,
   deleteDoc,
+  addDoc,
 } from "firebase/firestore";
 import { FIRESTORE_DB, FIREBASE_AUTH } from "../../../firebase.config";
 import { FaTrash } from "react-icons/fa";
@@ -118,7 +119,15 @@ const Cart: React.FC = () => {
       console.error("Error clearing cart:", error);
     }
   };
-
+  const handleorderplace = async () => {
+    await addDoc(collection(FIRESTORE_DB, "orders"), {
+      orderitems: cartItems,
+      email: user.email,
+    });
+    alert("Order Placed Successfully!!");
+    handleClearCart();
+    setCartItems([]);
+  };
   return (
     <div className="cart-container max-w-6xl mx-auto p-4">
       {cartItems.length > 0 ? (
@@ -150,12 +159,20 @@ const Cart: React.FC = () => {
               </li>
             ))}
           </ul>
-          <button
-            className="bg-red-600 p-2 rounded-xl text-white text-l mt-6 cursor-pointer"
-            onClick={handleClearCart}
-          >
-            Clear Cart
-          </button>
+          <div className="flex gap-5">
+            <button
+              className="bg-red-600 p-2 rounded-xl text-white text-l mt-6 cursor-pointer"
+              onClick={handleClearCart}
+            >
+              Clear Cart
+            </button>
+            <button
+              className="bg-red-600 p-2 rounded-xl text-white text-l mt-6 cursor-pointer"
+              onClick={handleorderplace}
+            >
+              Place Order
+            </button>
+          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center">
