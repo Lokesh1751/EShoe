@@ -4,6 +4,8 @@ import { collection, addDoc, getDocs } from "firebase/firestore";
 import { FIREBASE_AUTH, FIRESTORE_DB } from "../../../firebase.config";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import Link from "next/link";
+import Main from '@/HomePageComponents/Main'
+import Footer from "@/HomePageComponents/Footer";
 
 interface Feedback {
   id: string;
@@ -80,7 +82,9 @@ function FeedbackPage() {
   };
 
   return (
-    <div
+    <div>
+      <Main/>
+      <div
       className="max-w-full mx-auto px-10 py-12"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
@@ -176,6 +180,8 @@ function FeedbackPage() {
           </ul>
         )}
       </div>
+    </div>
+    <Footer/>
     </div>
   );
 }

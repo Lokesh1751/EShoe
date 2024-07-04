@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebase.config";
-import ShoeCard from "../../components/ShoeCard";
+import ShoeCard from "../../HomePageComponents/ShoeCard";
+import  Main  from '../../HomePageComponents/Main';
+import Footer from "@/HomePageComponents/Footer";
 
 interface Shoe {
   id: string;
@@ -33,6 +35,8 @@ function Kids() {
   }, []);
 
   return (
+   <div>
+     <Main/>
     <div
       className="p-10 w-screen flex flex-col items-center justify-center "
       style={{
@@ -42,6 +46,7 @@ function Kids() {
         backgroundRepeat: "no-repeat",
       }}
     >
+     
       <h1 className="text-3xl font-bold mb-6 text-white"> Kid's Collection</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
         {shoes.map((shoe) => (
@@ -49,6 +54,8 @@ function Kids() {
         ))}
       </div>
     </div>
+    <Footer/>
+   </div>
   );
 }
 

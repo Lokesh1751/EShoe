@@ -27,16 +27,18 @@ function Home() {
   };
 
   return (
-    <div className="flex flex-col p-4 xl:flex-row xl:justify-between space-y-3 xl:space-y-0 xl:p-6">
-      <div className="flex flex-row justify-between items-center w-full xl:w-auto">
-        <div className="flex items-center space-x-2">
-          <h1 className="text-3xl xl:text-4xl">EShoe</h1>
-          <img
-            src="https://img.freepik.com/premium-photo/single-continuous-line-drawing-safety-hiking-boots_804788-5097.jpg"
-            className="w-14 h-12 xl:w-16 xl:h-20"
-            alt="Eshoe logo"
-          />
-        </div>
+    <div className="flex flex-col p-4 xl:flex-row xl:justify-between space-y-3 xl:space-y-0 xl:p-3">
+      <div className="flex flex-row justify-between items-center w-full cursor-pointer xl:w-auto">
+        <Link href={"/"}>
+          <div className="flex items-center space-x-2">
+            <h1 className="text-3xl xl:text-4xl">EShoe</h1>
+            <img
+              src="https://img.freepik.com/premium-photo/single-continuous-line-drawing-safety-hiking-boots_804788-5097.jpg"
+              className="w-14 h-12 xl:w-16 xl:h-20"
+              alt="Eshoe logo"
+            />
+          </div>
+        </Link>
         <div className="xl:hidden">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -52,7 +54,7 @@ function Home() {
           menuOpen ? "flex" : "hidden"
         } flex-col space-y-6 xl:space-y-0 xl:space-x-10 xl:flex xl:flex-row items-center w-full xl:w-auto mt-4 xl:mt-0`}
       >
-        <div className="flex items-center mr-[0px] flex-col gap-6 cursor-pointer xl:flex-row xl:mr-[300px]">
+        <div className="flex items-center mr-[0px] flex-col gap-6 cursor-pointer xl:flex-row xl:mr-[360px]">
           <Link href={"/Men"}>
             {" "}
             <span className="text-gray-500 cursor-pointer">Men</span>

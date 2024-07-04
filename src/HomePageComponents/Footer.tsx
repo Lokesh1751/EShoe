@@ -12,7 +12,7 @@ function Footer() {
           resources by refurbishing and repurposing footwear.
         </p>
       </div>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
         <h1 className="text-3xl">Shop</h1>
         <Link href={"/Men"}>
           <p className="text-lg text-gray-400">Shop Men</p>
