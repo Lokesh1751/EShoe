@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebase.config";
 import ShoeCard from "../../HomePageComponents/ShoeCard";
-import Main from '@/HomePageComponents/Main'
+import Main from "@/HomePageComponents/Main";
 import Footer from "@/HomePageComponents/Footer";
+
 interface Shoe {
   id: string;
   name: string;
@@ -15,8 +16,15 @@ interface Shoe {
   [key: string]: any;
   category: string;
 }
+
 function WoMen() {
   const [shoes, setShoes] = useState<Shoe[]>([]);
+  const [boots, setBoots] = useState<Shoe[]>([]);
+  const [sneakers, setSneakers] = useState<Shoe[]>([]);
+  const [casual, setCasual] = useState<Shoe[]>([]);
+  const [athletic, setAthletic] = useState<Shoe[]>([]);
+  const [cat, setCat] = useState<Shoe[]>(shoes);
+  const [activeCategory, setActiveCategory] = useState<string>("All");
 
   useEffect(() => {
     const userref = collection(FIRESTORE_DB, "items");
@@ -26,32 +34,105 @@ function WoMen() {
         ...doc.data(),
       })) as Shoe[]; // Type assertion
       setShoes(shoes.filter((item) => item.gender === "Women"));
+      setBoots(
+        shoes.filter(
+          (item) => item.category === "Boots" && item.gender === "Women"
+        )
+      );
+      setCasual(
+        shoes.filter(
+          (item) => item.category === "Casual" && item.gender === "Women"
+        )
+      );
+      setSneakers(
+        shoes.filter(
+          (item) => item.category === "Sneakers" && item.gender === "Women"
+        )
+      );
+      setAthletic(
+        shoes.filter(
+          (item) => item.category === "Athletic" && item.gender === "Women"
+        )
+      );
     });
 
     // Clean up subscription on unmount
     return () => subs();
   }, []);
 
+  const handleCategoryClick = (category: string, shoes: Shoe[]) => {
+    setCat(shoes);
+    setActiveCategory(category);
+  };
+
   return (
     <div>
-      <Main/>
+      <Main />
       <div
-      className="p-10 w-screen flex flex-col items-center justify-center"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <h1 className="text-3xl font-bold mb-6 text-white">Women's Collection</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
-        {shoes.map((shoe) => (
-          <ShoeCard key={shoe.id} shoe={shoe} />
-        ))}
+        className="p-10 w-screen flex flex-col items-center justify-center"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <h1 className="text-3xl font-bold mb-6 text-white">
+          Women's Collection
+        </h1>
+        <div className="flex gap-14 mb-6 mt-4">
+          <button
+            className={`text-white border-white border p-2 rounded-lg w-20 ${
+              activeCategory === "All" ? "bg-white text-black" : "text-white"
+            }`}
+            onClick={() => handleCategoryClick("All", shoes)}
+          >
+            All
+          </button>
+          <button
+            className={`text-white border-white border p-2 rounded-lg w-20 ${
+              activeCategory === "Casual" ? "bg-white text-black" : "text-white"
+            }`}
+            onClick={() => handleCategoryClick("Casual", casual)}
+          >
+            Casual
+          </button>
+          <button
+            className={`text-white border-white border p-2 rounded-lg w-20 ${
+              activeCategory === "Boots" ? "bg-white text-black" : "text-white"
+            }`}
+            onClick={() => handleCategoryClick("Boots", boots)}
+          >
+            Boots
+          </button>
+          <button
+            className={`text-white border-white border p-2 rounded-lg w-20 ${
+              activeCategory === "Athletic"
+                ? "bg-white text-black"
+                : "text-white"
+            }`}
+            onClick={() => handleCategoryClick("Athletic", athletic)}
+          >
+            Athletic
+          </button>
+          <button
+            className={`text-white border-white border p-2 rounded-lg w-22 ${
+              activeCategory === "Sneakers"
+                ? "bg-white text-black"
+                : "text-white"
+            }`}
+            onClick={() => handleCategoryClick("Sneakers", sneakers)}
+          >
+            Sneakers
+          </button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
+          {cat.map((shoe) => (
+            <ShoeCard key={shoe.id} shoe={shoe} />
+          ))}
+        </div>
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </div>
   );
 }
