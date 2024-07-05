@@ -33,20 +33,36 @@ function Men() {
         id: doc.id,
         ...doc.data(),
       })) as Shoe[]; // Type assertion
-  
+
       // Filter and set state for each category and gender
       setShoes(shoes.filter((item) => item.gender === "Men"));
-      setBoots(shoes.filter((item) => item.category === "Boots" && item.gender === "Men"));
-      setCasual(shoes.filter((item) => item.category === "Casual" && item.gender === "Men"));
-      setSneakers(shoes.filter((item) => item.category === "Sneakers" && item.gender === "Men"));
-      setAthletic(shoes.filter((item) => item.category === "Athletic" && item.gender === "Men"));
-      setCat(shoes.filter((item) => item.gender === "Men"))
+      setBoots(
+        shoes.filter(
+          (item) => item.category === "Boots" && item.gender === "Men"
+        )
+      );
+      setCasual(
+        shoes.filter(
+          (item) => item.category === "Casual" && item.gender === "Men"
+        )
+      );
+      setSneakers(
+        shoes.filter(
+          (item) => item.category === "Sneakers" && item.gender === "Men"
+        )
+      );
+      setAthletic(
+        shoes.filter(
+          (item) => item.category === "Athletic" && item.gender === "Men"
+        )
+      );
+      setCat(shoes.filter((item) => item.gender === "Men"));
     });
-  
+
     // Clean up subscription on unmount
     return () => subs();
   }, []);
-  
+
   const handleCategoryClick = (category: string, shoes: Shoe[]) => {
     setCat(shoes); // Update the displayed shoes for the selected category
     setActiveCategory(category); // Update the active category state

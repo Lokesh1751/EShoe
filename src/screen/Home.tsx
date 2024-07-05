@@ -12,7 +12,7 @@ import Footer from "@/HomePageComponents/Footer";
 import NewArrivels from "@/HomePageComponents/NewArrivels";
 export default function Page() {
   return (
-    <div className="m-0">
+    <div>
       <Main />
       <HeaderSection />
       <Logo />

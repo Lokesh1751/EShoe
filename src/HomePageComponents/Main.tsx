@@ -54,7 +54,7 @@ function Home() {
           menuOpen ? "flex" : "hidden"
         } flex-col space-y-6 xl:space-y-0 xl:space-x-10 xl:flex xl:flex-row items-center w-full xl:w-auto mt-4 xl:mt-0`}
       >
-        <div className="flex items-center mr-[0px] flex-col gap-12 cursor-pointer xl:flex-row xl:mr-[330px]">
+        <div className="flex items-center mr-[0px] flex-col gap-5 cursor-pointer xl:flex-row xl:mr-[330px] xl:gap-12">
           <Link href={"/Men"}>
             {" "}
             <span className="text-gray-500 cursor-pointer">Men</span>

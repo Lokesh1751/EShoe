@@ -142,13 +142,19 @@ function Admin() {
   };
 
   if (loading) {
-    return <div   className="w-screen relative h-screen p-10 flex items-center justify-center text-white font-bold text-3xl"
-    style={{
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-    }}>Loading...</div>; // Render loading indicator while fetching data
+    return (
+      <div
+        className="w-screen relative h-screen p-10 flex items-center justify-center text-white font-bold text-3xl"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        Loading...
+      </div>
+    ); // Render loading indicator while fetching data
   }
 
   return (
@@ -176,7 +182,7 @@ function Admin() {
               </span>
             </div>
           </Link>
-          <Link href={'/Orders'}>
+          <Link href={"/Orders"}>
             <div className="absolute top-20 cursor-pointer text-black bg-white p-1 rounded-lg m-2 right-20 flex items-center">
               <span className="mr-2 text-lg font-bold ">Orders</span>
               <span className="bg-red-700 text-white p-2 rounded-full flex items-center justify-center text-sm font-bold w-6 h-6">
@@ -335,4 +341,3 @@ function Admin() {
 }
 
 export default Admin;
-
