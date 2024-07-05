@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebase.config";
 import ShoeCard from "../../HomePageComponents/ShoeCard";
-import Main from "../../HomePageComponents/Main";
+import Main from "@/HomePageComponents/Main";
 import Footer from "@/HomePageComponents/Footer";
 
 interface Shoe {
@@ -12,12 +12,12 @@ interface Shoe {
   url: string;
   price: string;
   gender: string;
-  [key: string]: any;
   sizes: string;
+  [key: string]: any;
   category: string;
 }
 
-function Kids() {
+function Women() {
   const [shoes, setShoes] = useState<Shoe[]>([]);
   const [boots, setBoots] = useState<Shoe[]>([]);
   const [sneakers, setSneakers] = useState<Shoe[]>([]);
@@ -33,11 +33,30 @@ function Kids() {
         id: doc.id,
         ...doc.data(),
       })) as Shoe[]; // Type assertion
+
+      // Filter and set state for each category and gender
       setShoes(shoes.filter((item) => item.gender === "Kids"));
-      setBoots(shoes.filter((item) => item.category === "Boots" && item.gender === "Kids"));
-      setCasual(shoes.filter((item) => item.category === "Casual" && item.gender === "Kids"));
-      setSneakers(shoes.filter((item) => item.category === "Sneakers" && item.gender === "Kids"));
-      setAthletic(shoes.filter((item) => item.category === "Athletic" && item.gender === "Kids"));
+      setBoots(
+        shoes.filter(
+          (item) => item.category === "Boots" && item.gender === "Kids"
+        )
+      );
+      setCasual(
+        shoes.filter(
+          (item) => item.category === "Casual" && item.gender === "Kids"
+        )
+      );
+      setSneakers(
+        shoes.filter(
+          (item) => item.category === "Sneakers" && item.gender === "Kids"
+        )
+      );
+      setAthletic(
+        shoes.filter(
+          (item) => item.category === "Athletic" && item.gender === "Kids"
+        )
+      );
+      setCat(shoes.filter((item) => item.gender === "Kids"));
     });
 
     // Clean up subscription on unmount
@@ -45,8 +64,8 @@ function Kids() {
   }, []);
 
   const handleCategoryClick = (category: string, shoes: Shoe[]) => {
-    setCat(shoes);
-    setActiveCategory(category);
+    setCat(shoes); // Update the displayed shoes for the selected category
+    setActiveCategory(category); // Update the active category state
   };
 
   return (
@@ -61,39 +80,51 @@ function Kids() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <h1 className="text-3xl font-bold text-white">Kid's Collection</h1>
-        <div className="flex gap-14 mb-6 mt-4">
+        <h1 className="text-3xl font-bold text-white flex-wrap">
+          Kid's Collection
+        </h1>
+        <div className="flex flex-wrap gap-4 sm:gap-14 mb-6 mt-4">
           <button
-            className={`text-white border-white border p-2 rounded-lg w-20 ${activeCategory === "All" ? "bg-white text-black" : ""}`}
-            style={activeCategory === "All" ? { color: 'black' } : {}}
+            className={`text-white border-white border p-2 rounded-lg w-20 ${
+              activeCategory === "All" ? "bg-white text-black" : ""
+            }`}
+            style={activeCategory === "All" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("All", shoes)}
           >
             All
           </button>
           <button
-            className={`text-white border-white border p-2 rounded-lg w-20 ${activeCategory === "Casual" ? "bg-white text-black" : ""}`}
-            style={activeCategory === "Casual" ? { color: 'black' } : {}}
+            className={`text-white border-white border p-2 rounded-lg w-20 ${
+              activeCategory === "Casual" ? "bg-white text-black" : ""
+            }`}
+            style={activeCategory === "Casual" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("Casual", casual)}
           >
             Casual
           </button>
           <button
-            className={`text-white border-white border p-2 rounded-lg w-20 ${activeCategory === "Boots" ? "bg-white text-black" : ""}`}
-            style={activeCategory === "Boots" ? { color: 'black' } : {}}
+            className={`text-white border-white border p-2 rounded-lg w-20 ${
+              activeCategory === "Boots" ? "bg-white text-black" : ""
+            }`}
+            style={activeCategory === "Boots" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("Boots", boots)}
           >
             Boots
           </button>
           <button
-            className={`text-white border-white border p-2 rounded-lg w-20 ${activeCategory === "Athletic" ? "bg-white text-black" : ""}`}
-            style={activeCategory === "Athletic" ? { color: 'black' } : {}}
+            className={`text-white border-white border p-2 rounded-lg w-20 ${
+              activeCategory === "Athletic" ? "bg-white text-black" : ""
+            }`}
+            style={activeCategory === "Athletic" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("Athletic", athletic)}
           >
             Athletic
           </button>
           <button
-            className={`text-white border-white border p-2 rounded-lg w-22 ${activeCategory === "Sneakers" ? "bg-white text-black" : ""}`}
-            style={activeCategory === "Sneakers" ? { color: 'black' } : {}}
+            className={`text-white border-white border p-2 rounded-lg w-22 ${
+              activeCategory === "Sneakers" ? "bg-white text-black" : ""
+            }`}
+            style={activeCategory === "Sneakers" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("Sneakers", sneakers)}
           >
             Sneakers
@@ -110,4 +141,4 @@ function Kids() {
   );
 }
 
-export default Kids;
+export default Women;

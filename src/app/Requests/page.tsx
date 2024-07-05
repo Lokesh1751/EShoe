@@ -23,6 +23,7 @@ interface RecyclingRequest {
 function Page() {
   const [requests, setRequests] = useState<RecyclingRequest[]>([]);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAdminStatus = async () => {
@@ -38,6 +39,8 @@ function Page() {
         }
       } catch (error) {
         console.error("Error fetching document:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -79,7 +82,21 @@ function Page() {
       console.error("Error declining request:", error);
     }
   };
-
+  if (loading) {
+    return (
+      <div
+        className="w-screen relative h-screen p-10 flex items-center justify-center text-white font-bold text-3xl"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        Loading...
+      </div>
+    ); // Render loading indicator while fetching data
+  }
   if (!loggedIn) {
     return (
       <div

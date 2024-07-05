@@ -17,7 +17,7 @@ interface Shoe {
   category: string;
 }
 
-function WoMen() {
+function Women() {
   const [shoes, setShoes] = useState<Shoe[]>([]);
   const [boots, setBoots] = useState<Shoe[]>([]);
   const [sneakers, setSneakers] = useState<Shoe[]>([]);
@@ -25,7 +25,6 @@ function WoMen() {
   const [athletic, setAthletic] = useState<Shoe[]>([]);
   const [cat, setCat] = useState<Shoe[]>(shoes);
   const [activeCategory, setActiveCategory] = useState<string>("All");
-
   useEffect(() => {
     const userref = collection(FIRESTORE_DB, "items");
     const subs = onSnapshot(userref, (snapshot) => {
@@ -33,6 +32,8 @@ function WoMen() {
         id: doc.id,
         ...doc.data(),
       })) as Shoe[]; // Type assertion
+
+      // Filter and set state for each category and gender
       setShoes(shoes.filter((item) => item.gender === "Women"));
       setBoots(
         shoes.filter(
@@ -54,6 +55,7 @@ function WoMen() {
           (item) => item.category === "Athletic" && item.gender === "Women"
         )
       );
+      setCat(shoes.filter((item) => item.gender === "Women"));
     });
 
     // Clean up subscription on unmount
@@ -61,15 +63,15 @@ function WoMen() {
   }, []);
 
   const handleCategoryClick = (category: string, shoes: Shoe[]) => {
-    setCat(shoes);
-    setActiveCategory(category);
+    setCat(shoes); // Update the displayed shoes for the selected category
+    setActiveCategory(category); // Update the active category state
   };
 
   return (
     <div>
       <Main />
       <div
-        className="p-10 w-screen flex flex-col items-center justify-center"
+        className="p-10 w-screen flex flex-col items-center justify-center "
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
           backgroundSize: "cover",
@@ -77,50 +79,51 @@ function WoMen() {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <h1 className="text-3xl font-bold mb-6 text-white">
+        <h1 className="text-3xl font-bold text-white flex-wrap">
           Women's Collection
         </h1>
-        <div className="flex gap-14 mb-6 mt-4">
+        <div className="flex flex-wrap gap-4 sm:gap-14 mb-6 mt-4">
           <button
             className={`text-white border-white border p-2 rounded-lg w-20 ${
-              activeCategory === "All" ? "bg-white text-black" : "text-white"
+              activeCategory === "All" ? "bg-white text-black" : ""
             }`}
+            style={activeCategory === "All" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("All", shoes)}
           >
             All
           </button>
           <button
             className={`text-white border-white border p-2 rounded-lg w-20 ${
-              activeCategory === "Casual" ? "bg-white text-black" : "text-white"
+              activeCategory === "Casual" ? "bg-white text-black" : ""
             }`}
+            style={activeCategory === "Casual" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("Casual", casual)}
           >
             Casual
           </button>
           <button
             className={`text-white border-white border p-2 rounded-lg w-20 ${
-              activeCategory === "Boots" ? "bg-white text-black" : "text-white"
+              activeCategory === "Boots" ? "bg-white text-black" : ""
             }`}
+            style={activeCategory === "Boots" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("Boots", boots)}
           >
             Boots
           </button>
           <button
             className={`text-white border-white border p-2 rounded-lg w-20 ${
-              activeCategory === "Athletic"
-                ? "bg-white text-black"
-                : "text-white"
+              activeCategory === "Athletic" ? "bg-white text-black" : ""
             }`}
+            style={activeCategory === "Athletic" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("Athletic", athletic)}
           >
             Athletic
           </button>
           <button
             className={`text-white border-white border p-2 rounded-lg w-22 ${
-              activeCategory === "Sneakers"
-                ? "bg-white text-black"
-                : "text-white"
+              activeCategory === "Sneakers" ? "bg-white text-black" : ""
             }`}
+            style={activeCategory === "Sneakers" ? { color: "black" } : {}}
             onClick={() => handleCategoryClick("Sneakers", sneakers)}
           >
             Sneakers
@@ -137,4 +140,4 @@ function WoMen() {
   );
 }
 
-export default WoMen;
+export default Women;
