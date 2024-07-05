@@ -5,6 +5,7 @@ import { FIRESTORE_DB } from "../../../firebase.config";
 import ShoeCard from "../../HomePageComponents/ShoeCard";
 import Main from "@/HomePageComponents/Main";
 import Footer from "@/HomePageComponents/Footer";
+import Link from "next/link";
 
 interface Shoe {
   id: string;
@@ -138,7 +139,9 @@ function Women() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
             {cat.map((shoe) => (
-              <ShoeCard key={shoe.id} shoe={shoe} />
+               <Link href={`/Itemdetails/${shoe.id}`}>
+               <ShoeCard key={shoe.id} shoe={shoe} />
+              </Link>
             ))}
           </div>
         )}

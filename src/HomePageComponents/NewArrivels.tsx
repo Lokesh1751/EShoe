@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../firebase.config";
 import ShoeCard from "./ShoeCard";
+import Link from "next/link";
 
 interface Shoe {
   id: string;
@@ -34,11 +35,15 @@ function NewArrivels() {
   return (
     <div className="p-10">
       <h1 className="text-3xl font-bold mb-6">New Arrivals</h1>
+      
       <div className="grid grid-cols-1 justify-evenly sm:grid-cols-2 md:grid-cols-3 gap-6">
         {shoes.map((shoe) => (
+          <Link href={`./Itemdetails/${shoe.id}`}>
           <ShoeCard key={shoe.id} shoe={shoe} />
+          </Link>
         ))}
       </div>
+     
     </div>
   );
 }

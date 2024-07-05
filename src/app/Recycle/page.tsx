@@ -1,16 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { collection, addDoc } from "firebase/firestore";
-import { FIRESTORE_DB } from "../../../firebase.config";
+import { FIRESTORE_DB, FIREBASE_AUTH } from "../../../firebase.config";
 import Main from "@/HomePageComponents/Main";
 import Footer from "@/HomePageComponents/Footer";
-
 const RecyclingForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [shoeType, setShoeType] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [user, setUser] = useState<any | null>(null);
+  useEffect(() => {
+    const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
+    return unsubscribe; // Unsubscribe when component unmounts
+  }, []);
 
   const handleNameChange = (e: any) => setName(e.target.value);
   const handleEmailChange = (e: any) => setEmail(e.target.value);
@@ -19,30 +25,39 @@ const RecyclingForm = () => {
   const handleQuantityChange = (e: any) => setQuantity(e.target.value);
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    try {
-      const docRef = await addDoc(
-        collection(FIRESTORE_DB, "recyclingRequests"),
-        {
-          name,
-          email,
-          address,
-          shoeType,
-          quantity,
-          approved: false,
-          declined: false,
-        }
-      );
+    if (user && user.email) {
+      e.preventDefault();
+      try {
+        const docRef = await addDoc(
+          collection(FIRESTORE_DB, "recyclingRequests"),
+          {
+            name,
+            email,
+            address,
+            shoeType,
+            quantity,
+            approved: false,
+            declined: false,
+          }
+        );
+        setName("");
+        setEmail("");
+        setAddress("");
+        setShoeType("");
+        setQuantity(1);
+        console.log("Recycling request submitted with ID: ", docRef.id);
+        // Optionally, provide feedback to the user about successful submission
+      } catch (error) {
+        console.error("Error submitting recycling request: ", error);
+        // Handle error feedback to the user
+      }
+    } else {
+      alert("Login First!!");
       setName("");
       setEmail("");
       setAddress("");
       setShoeType("");
       setQuantity(1);
-      console.log("Recycling request submitted with ID: ", docRef.id);
-      // Optionally, provide feedback to the user about successful submission
-    } catch (error) {
-      console.error("Error submitting recycling request: ", error);
-      // Handle error feedback to the user
     }
   };
 

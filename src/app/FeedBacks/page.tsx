@@ -20,6 +20,7 @@ function FeedbackPage() {
   const [comments, setComments] = useState("");
   const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
   const [user, setUser] = useState<any | null>(null);
+  const[loading,setLoading]=useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((currentUser) => {
@@ -38,9 +39,11 @@ function FeedbackPage() {
         fetchedFeedbacks.push({ id: doc.id, ...doc.data() } as Feedback);
       });
       setFeedbacks(fetchedFeedbacks);
+      setLoading(false);
     };
-
+  
     fetchFeedbacks();
+   
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,7 +83,25 @@ function FeedbackPage() {
     }
     return stars;
   };
-
+if(loading){
+ return(
+  <div>
+  <Main />
+  <div
+    className="max-w-full mx-auto px-10 py-12"
+    style={{
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }}
+  >
+    <h1 className="text-white text-2xl font-bold">Loading...</h1>
+    </div>
+    <Footer/>
+    </div>
+ )
+}
   return (
     <div>
       <Main />
