@@ -25,6 +25,7 @@ function Men() {
   const [athletic, setAthletic] = useState<Shoe[]>([]);
   const [cat, setCat] = useState<Shoe[]>(shoes);
   const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [loading, setLoading] = useState<boolean>(true); // New loading state
 
   useEffect(() => {
     const userref = collection(FIRESTORE_DB, "items");
@@ -57,6 +58,8 @@ function Men() {
         )
       );
       setCat(shoes.filter((item) => item.gender === "Men"));
+
+      setLoading(false); // Set loading to false when data is fetched
     });
 
     // Clean up subscription on unmount
@@ -130,11 +133,15 @@ function Men() {
             Sneakers
           </button>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
-          {cat.map((shoe) => (
-            <ShoeCard key={shoe.id} shoe={shoe} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="text-white text-2xl font-bold">Loading...</div> // Display loading indicator
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
+            {cat.map((shoe) => (
+              <ShoeCard key={shoe.id} shoe={shoe} />
+            ))}
+          </div>
+        )}
       </div>
       <Footer />
     </div>
