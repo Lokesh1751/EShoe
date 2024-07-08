@@ -172,7 +172,7 @@ function Page() {
               </p>
               <button
                 onClick={() => handleAddToCart(item as any)}
-                className="mt-4 w-full bg-gradient-to-r from-blue-400 to-purple-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="mt-4 w-full bg-gradient-to-r from-gray-400 to-gray-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 Add to Cart
               </button>
