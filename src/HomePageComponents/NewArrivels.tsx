@@ -7,11 +7,13 @@ interface Shoe {
   id: string;
   name: string;
   url: string;
+  url2: string;
+  url3: string;
   price: string;
-  gender: string;
-  [key: string]: any;
-  category: string;
   sizes: string;
+  gender: string;
+  category: string;
+  desc: string;
 }
 
 function NewArrivels() {

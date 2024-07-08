@@ -1,133 +1,18 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  doc,
-  setDoc,
-  deleteDoc,
-  addDoc,
-} from "firebase/firestore";
-import { FIRESTORE_DB, FIREBASE_AUTH } from "../../../firebase.config";
+import React, { useContext } from "react";
 import { FaTrash } from "react-icons/fa";
-
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  url: string;
-}
+import { CartContext } from "@/context/CartContext";
 
 const Cart: React.FC = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [user, setUser] = useState<any | null>(null);
+  const cartContext = useContext(CartContext);
 
-  useEffect(() => {
-    const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-    return unsubscribe; // Unsubscribe when component unmounts
-  }, []);
+  if (!cartContext) {
+    return <div>Loading...</div>;
+  }
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        if (user && user.email) {
-          const q = query(
-            collection(FIRESTORE_DB, "carts"),
-            where("email", "==", user.email)
-          );
-          const querySnapshot = await getDocs(q);
+  const { cartItems, handleDeleteCartItem, handleClearCart, handleOrderPlace } =
+    cartContext;
 
-          const cartItemsData: CartItem[] = [];
-          querySnapshot.forEach((doc) => {
-            const { items } = doc.data();
-            items.forEach((item: any) => {
-              const { name, price, url, quantity = 1 } = item;
-              const cartItem: CartItem = {
-                id: doc.id,
-                name,
-                price: Number(price),
-                quantity,
-                url,
-              };
-              cartItemsData.push(cartItem);
-            });
-          });
-
-          setCartItems(cartItemsData);
-        }
-      } catch (error) {
-        console.error("Error fetching cart items:", error);
-      }
-    };
-
-    fetchCartItems();
-  }, [user]);
-
-  const handleDeleteCartItem = async (itemIndex: number) => {
-    try {
-      if (user && user.email) {
-        const cartRef = doc(FIRESTORE_DB, "carts", user.email);
-        const cartSnapshot = await getDocs(
-          query(
-            collection(FIRESTORE_DB, "carts"),
-            where("email", "==", user.email)
-          )
-        );
-
-        if (!cartSnapshot.empty) {
-          const cartDoc = cartSnapshot.docs[0];
-          const cartData = cartDoc.data();
-
-          const updatedItems = cartData.items.filter(
-            (_: any, index: any) => index !== itemIndex
-          );
-
-          await setDoc(cartRef, { ...cartData, items: updatedItems });
-
-          setCartItems(updatedItems);
-          console.log(`Item at index ${itemIndex} deleted successfully.`);
-        }
-      }
-    } catch (error) {
-      console.error("Error deleting item:", error);
-    }
-  };
-
-  const handleClearCart = async () => {
-    try {
-      if (user && user.email) {
-        const q = query(
-          collection(FIRESTORE_DB, "carts"),
-          where("email", "==", user.email)
-        );
-        const querySnapshot = await getDocs(q);
-
-        const deletePromises = querySnapshot.docs.map((doc) =>
-          deleteDoc(doc.ref)
-        );
-        await Promise.all(deletePromises);
-
-        setCartItems([]);
-        console.log("Cart cleared successfully.");
-      }
-    } catch (error) {
-      console.error("Error clearing cart:", error);
-    }
-  };
-  const handleorderplace = async () => {
-    await addDoc(collection(FIRESTORE_DB, "orders"), {
-      orderitems: cartItems,
-      email: user.email,
-    });
-    alert("Order Placed Successfully!!");
-    handleClearCart();
-    setCartItems([]);
-  };
   return (
     <div className="cart-container max-w-6xl mx-auto p-4">
       {cartItems.length > 0 ? (
@@ -168,7 +53,7 @@ const Cart: React.FC = () => {
             </button>
             <button
               className="bg-red-600 p-2 rounded-xl text-white text-l mt-6 cursor-pointer"
-              onClick={handleorderplace}
+              onClick={handleOrderPlace}
             >
               Place Order
             </button>
@@ -180,8 +65,8 @@ const Cart: React.FC = () => {
             src="https://static.vecteezy.com/system/resources/previews/016/026/442/original/empty-shopping-cart-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg"
             alt=""
             className="w-[500px] h-[500px]"
-          />{" "}
-          <p className=" text-3xl font-bold">Cart is Empty!</p>{" "}
+          />
+          <p className="text-3xl font-bold">Cart is Empty!</p>
         </div>
       )}
     </div>

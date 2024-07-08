@@ -8,11 +8,13 @@ interface Shoe {
   id: string;
   name: string;
   url: string;
+  url2: string;
+  url3: string;
   price: string;
-  gender: string;
   sizes: string;
-  [key: string]: any;
+  gender: string;
   category: string;
+  desc: string;
 }
 
 function Women() {
@@ -135,7 +137,7 @@ function Women() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
             {cat.map((shoe) => (
-                <ShoeCard key={shoe.id} shoe={shoe} />
+              <ShoeCard key={shoe.id} shoe={shoe} />
             ))}
           </div>
         )}

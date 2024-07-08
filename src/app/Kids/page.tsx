@@ -8,11 +8,13 @@ interface Shoe {
   id: string;
   name: string;
   url: string;
+  url2: string;
+  url3: string;
   price: string;
-  gender: string;
   sizes: string;
-  [key: string]: any;
+  gender: string;
   category: string;
+  desc: string;
 }
 
 function Kids() {
