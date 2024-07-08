@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { FIRESTORE_DB, FIREBASE_AUTH } from "../../../firebase.config";
-import Main from "@/HomePageComponents/Main";
-import Footer from "@/HomePageComponents/Footer";
 const RecyclingForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -63,7 +61,6 @@ const RecyclingForm = () => {
 
   return (
     <div>
-      <Main />
       <div
         className="w-screen relative h-screen flex p-6 flex-col items-center justify-center"
         style={{
@@ -169,7 +166,6 @@ const RecyclingForm = () => {
           </form>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

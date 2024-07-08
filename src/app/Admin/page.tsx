@@ -17,9 +17,12 @@ function Admin() {
   const [itemName, setItemName] = useState("");
   const [sizes, setSizes] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl2, setImageUrl2] = useState(""); // New state for url2
+  const [imageUrl3, setImageUrl3] = useState(""); // New state for url3
   const [price, setPrice] = useState("");
   const [gender, setGender] = useState("");
   const [category, setCategory] = useState("");
+  const [desc, setDesc] = useState(""); // New state for description
   const [loggedIn, setLoggedIn] = useState(false);
   const [requests, setRequests] = useState<RecyclingRequest[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -112,17 +115,23 @@ function Admin() {
         price: price,
         sizes: sizes,
         url: imageUrl,
+        url2: imageUrl2, // Add url2
+        url3: imageUrl3, // Add url3
         gender: gender,
         category: category,
+        desc: desc, // Add description
       });
       alert("Item added Successfully!!");
       console.log("Item added with ID:", docRef.id);
       setItemName("");
       setSizes("");
       setImageUrl("");
+      setImageUrl2(""); // Clear url2
+      setImageUrl3(""); // Clear url3
       setPrice("");
       setGender("");
       setCategory("");
+      setDesc(""); // Clear description
     } catch (error) {
       console.error("Error adding item:", error);
     }
@@ -159,7 +168,7 @@ function Admin() {
 
   return (
     <div
-      className="w-screen relative h-screen p-10 flex items-center justify-center"
+      className="w-full relative h-full p-10 flex items-center justify-center"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
         backgroundSize: "cover",
@@ -243,6 +252,38 @@ function Admin() {
               id="imageUrl"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
+              className="mt-1 block               w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="imageUrl2"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Image URL 2:
+            </label>
+            <input
+              type="url"
+              id="imageUrl2"
+              value={imageUrl2}
+              onChange={(e) => setImageUrl2(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="imageUrl3"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Image URL 3:
+            </label>
+            <input
+              type="url"
+              id="imageUrl3"
+              value={imageUrl3}
+              onChange={(e) => setImageUrl3(e.target.value)}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               required
             />
@@ -308,6 +349,22 @@ function Admin() {
               <option value="Formal">Formal</option>
               <option value="Sneakers">Sneakers</option>
             </select>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="desc"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Description:
+            </label>
+            <textarea
+              id="desc"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              rows={4}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              required
+            />
           </div>
           <button
             type="submit"

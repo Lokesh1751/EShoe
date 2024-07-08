@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Main from "../HomePageComponents/Main";
+import Footer from "@/HomePageComponents/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +25,11 @@ export default function RootLayout({
           href="https://p7.hiclipart.com/preview/722/1001/154/shoe-converse-sneakers-canvas-shoes.jpg"
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Main />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

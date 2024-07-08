@@ -13,7 +13,6 @@ import NewArrivels from "@/HomePageComponents/NewArrivels";
 export default function Page() {
   return (
     <div>
-      <Main />
       <HeaderSection />
       <Logo />
       <AboutUs />
@@ -23,7 +22,6 @@ export default function Page() {
       <NewArrivels />
       <CompanyMoto />
       <Services />
-      <Footer />
     </div>
   );
 }
