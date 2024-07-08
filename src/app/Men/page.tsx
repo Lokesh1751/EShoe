@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebase.config";
 import ShoeCard from "../../HomePageComponents/ShoeCard";
-import Link from "next/link";
 
 interface Shoe {
   id: string;
@@ -136,9 +135,7 @@ function Men() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
             {cat.map((shoe) => (
-              <Link href={`/Itemdetails/${shoe.id}`}>
-                <ShoeCard key={shoe.id} shoe={shoe} />
-              </Link>
+              <ShoeCard key={shoe.id} shoe={shoe} />
             ))}
           </div>
         )}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { FIRESTORE_DB, FIREBASE_AUTH } from "../../firebase.config";
+import Link from "next/link";
 
 interface Shoe {
   id: string;
@@ -70,7 +71,7 @@ function ShoeCard({ shoe }: ShoeCardProps) {
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden transform transition duration-300 hover:scale-105 w-full sm:w-80 md:w-96">
+    <div className="bg-white shadow-md rounded-lg h-[460px] overflow-hidden transform transition duration-300 hover:scale-105 w-full sm:w-80 md:w-96">
       <img
         src={shoe.url}
         alt={shoe.name}
@@ -78,13 +79,19 @@ function ShoeCard({ shoe }: ShoeCardProps) {
       />
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-2">{shoe.name}</h2>
-
-        <button
-          onClick={handleAddToCart}
-          className="mt-4 bg-gradient-to-r from-blue-400 to-purple-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Add to Cart
-        </button>
+        <div className="flex justify-between items-center">
+          <button
+            onClick={handleAddToCart}
+            className="mt-4 bg-gradient-to-r from-blue-400 to-purple-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Add to Cart
+          </button>
+          <Link href={`/Itemdetails/${shoe.id}`}>
+            <p className="mt-4 text-gray-600 hover:text-gray-900 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              See More
+            </p>
+          </Link>
+        </div>
       </div>
     </div>
   );
