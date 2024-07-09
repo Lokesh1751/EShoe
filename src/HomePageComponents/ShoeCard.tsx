@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import Link from "next/link";
-import { CartContext } from "@/context/CartContext";
 
 interface Shoe {
   id: string;
@@ -20,14 +19,6 @@ interface ShoeCardProps {
 }
 
 function ShoeCard({ shoe }: ShoeCardProps) {
-  const cartContext = useContext(CartContext);
-
-  if (!cartContext) {
-    return null;
-  }
-
-  const { handleAddToCart } = cartContext;
-
   if (!shoe) {
     return null;
   }
@@ -41,15 +32,12 @@ function ShoeCard({ shoe }: ShoeCardProps) {
       />
       <div className="p-4">
         <h2 className="text-xl font-semibold mb-2">{shoe.name}</h2>
+        <h2 className="text-xl text-red-700 font-bold mb-2">
+          Price: ₹{shoe.price}
+        </h2>
         <div className="flex justify-between items-center">
-          <button
-            onClick={() => handleAddToCart(shoe)}
-            className="mt-4 bg-gradient-to-r from-gray-400 to-gray-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Add to Cart
-          </button>
           <Link href={`/Itemdetails/${shoe.id}`}>
-            <p className="mt-4 text-gray-600 hover:text-gray-900 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <p className="mt-4 text-gray-600 hover:text-gray-900 font-bold rounded focus:outline-none focus:shadow-outline">
               See More
             </p>
           </Link>

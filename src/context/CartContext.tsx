@@ -40,7 +40,7 @@ interface CartContextProps {
   handleDeleteCartItem: (itemIndex: number) => Promise<void>;
   handleClearCart: () => Promise<void>;
   handleOrderPlace: () => Promise<void>;
-  handleAddToCart: (shoe: Shoe) => Promise<void>;
+  handleAddToCart: (shoe: Shoe, sze: number) => Promise<void>;
 }
 
 export const CartContext = createContext<CartContextProps | undefined>(
@@ -94,7 +94,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     fetchCartItems();
   }, [user]);
 
-  const handleAddToCart = async (shoe: Shoe) => {
+  const handleAddToCart = async (shoe: Shoe, sze: number) => {
     try {
       if (!user || !user.email) {
         throw new Error("User not authenticated.");
@@ -119,6 +119,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         price: Number(shoe.price),
         quantity: 1, // Set default quantity to 1
         addedAt: new Date().toISOString(),
+        size: sze,
       };
 
       updatedCartItems.push(newItem); // Add new item to local array

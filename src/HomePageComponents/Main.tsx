@@ -87,7 +87,7 @@ function Home() {
           <Link href={"/FeedBacks"}>FeedBacks</Link>
         </p>
         <Link href={user ? "/Cart" : "/Login"}>
-          <div className="flex gap-2 text-gray-500 rounded-full cursor-pointer">
+          <div className="flex gap-1 relative text-gray-500 rounded-full cursor-pointer">
             <FaShoppingCart size={24} /> <p>Cart</p>
           </div>
         </Link>

@@ -25,6 +25,7 @@ function Page() {
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+  const [selectedSize, setSelectedSize] = useState<number | null>(null);
   const cartContext = useContext(CartContext);
 
   if (!cartContext) {
@@ -73,6 +74,15 @@ function Page() {
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + 3) % 3);
+  };
+
+  const addCart = (item: any, size: number | null) => {
+    if (!size) {
+      alert("Select size for shoe!!");
+    } else {
+      handleAddToCart(item, size);
+      setSelectedSize(null);
+    }
   };
 
   const getSizesArray = (sizesString: string) => {
@@ -158,7 +168,12 @@ function Page() {
                   getSizesArray(item.sizes).map((size) => (
                     <span
                       key={size}
-                      className="inline-block cursor-pointer bg-gray-200 text-black rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2"
+                      className={`inline-block bg-gray-200 text-black rounded-full cursor-pointer px-3 py-1 text-sm font-semibold mr-2 mb-2 ${
+                        selectedSize === size ? "bg-black text-white" : ""
+                      }`}
+                      onClick={() =>
+                        setSelectedSize(selectedSize === size ? null : size)
+                      }
                     >
                       {size}
                     </span>
@@ -171,7 +186,7 @@ function Page() {
                 <span className="font-semibold">Description:</span> {item.desc}
               </p>
               <button
-                onClick={() => handleAddToCart(item as any)}
+                onClick={() => addCart(item as any, selectedSize)}
                 className="mt-4 w-full bg-gradient-to-r from-gray-400 to-gray-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 Add to Cart

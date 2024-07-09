@@ -111,20 +111,21 @@ function OrdersPage() {
               Ordered by: {order.email}
             </h2>
             <ul className="flex flex-col gap-4">
-              {order.orderItems.map((item) => (
-                <li key={item.id} className="flex items-center gap-4">
-                  <img
-                    src={item.url}
-                    alt={item.name}
-                    className="w-24 h-24 object-cover rounded-lg shadow-md"
-                  />
-                  <div className="flex flex-col">
-                    <p className="text-lg font-medium">{item.name}</p>
-                    <p className="text-gray-600">Price: ${item.price}</p>
-                    <p className="text-gray-600">Quantity: {item.quantity}</p>
-                  </div>
-                </li>
-              ))}
+              {order.orderItems &&
+                order.orderItems.map((item) => (
+                  <li key={item.id} className="flex items-center gap-4">
+                    <img
+                      src={item.url}
+                      alt={item.name}
+                      className="w-24 h-24 object-cover rounded-lg shadow-md"
+                    />
+                    <div className="flex flex-col">
+                      <p className="text-lg font-medium">{item.name}</p>
+                      <p className="text-gray-600">Price: ${item.price}</p>
+                      <p className="text-gray-600">Quantity: {item.quantity}</p>
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
         ))}
