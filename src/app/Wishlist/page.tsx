@@ -10,18 +10,17 @@ const Cart: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  const { cartItems, handleDeleteCartItem, handleClearCart, handleOrderPlace } =
-    cartContext;
+  const { wishlist, handleDeletewishlistitem } = cartContext;
 
   return (
     <div className="cart-container max-w-6xl mx-auto p-4">
-      {cartItems.length > 0 ? (
+      {wishlist.length > 0 ? (
         <div>
-          <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
+          <h2 className="text-2xl font-bold mb-4">Your Wishlist</h2>
           <ul>
-            {cartItems.map((item, index) => (
+            {wishlist.map((item) => (
               <li
-                key={item.id + index} // Use unique key for each item
+                key={item.id} // Ensure item.id is unique for each item
                 className="flex items-center justify-between border-b border-gray-200 py-4"
               >
                 <div className="flex items-center space-x-4">
@@ -37,36 +36,22 @@ const Cart: React.FC = () => {
                 </div>
                 <button
                   className="text-red-600 hover:text-red-800 focus:outline-none"
-                  onClick={() => handleDeleteCartItem(index)} // Pass index to delete only this item
+                  onClick={() => handleDeletewishlistitem(item.id)} // Assuming item.id uniquely identifies each item
                 >
                   <FaTrash className="text-lg" />
                 </button>
               </li>
             ))}
           </ul>
-          <div className="flex gap-5">
-            <button
-              className="bg-red-600 p-2 rounded-xl text-white text-l mt-6 cursor-pointer"
-              onClick={handleClearCart}
-            >
-              Clear Cart
-            </button>
-            <button
-              className="bg-red-600 p-2 rounded-xl text-white text-l mt-6 cursor-pointer"
-              onClick={handleOrderPlace}
-            >
-              Place Order
-            </button>
-          </div>
         </div>
       ) : (
         <div className="flex flex-col items-center">
           <img
             src="https://static.vecteezy.com/system/resources/previews/016/026/442/original/empty-shopping-cart-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg"
-            alt=""
+            alt="Empty Wishlist"
             className="w-[500px] h-[500px]"
           />
-          <p className="text-3xl font-bold">Cart is Empty!</p>
+          <p className="text-3xl font-bold">Wishlist is Empty!</p>
         </div>
       )}
     </div>

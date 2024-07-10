@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebase.config";
-import ShoeCard from "../../HomePageComponents/ShoeCard";
+import ShoeCard from "../../Card/ShoeCard";
 
 interface Shoe {
   id: string;

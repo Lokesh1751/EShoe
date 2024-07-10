@@ -86,6 +86,9 @@ function Home() {
         <p className="text-gray-500 cursor-pointer">
           <Link href={"/FeedBacks"}>FeedBacks</Link>
         </p>
+        <p className="text-gray-500 cursor-pointer">
+          <Link href={"/Wishlist"}>WishList</Link>
+        </p>
         <Link href={user ? "/Cart" : "/Login"}>
           <div className="flex gap-1 relative text-gray-500 rounded-full cursor-pointer">
             <FaShoppingCart size={24} /> <p>Cart</p>

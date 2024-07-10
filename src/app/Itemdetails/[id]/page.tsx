@@ -4,7 +4,8 @@ import { useParams } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../../firebase.config";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { CartContext } from "@/context/CartContext";
+import { UserContext } from "@/context/UserContext";
+import { FaHeart } from "react-icons/fa";
 
 interface Item {
   id: string;
@@ -26,13 +27,15 @@ function Page() {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
-  const cartContext = useContext(CartContext);
+  const [isAdded, setIsAdded] = useState<boolean>(false); // State for checking if item is added to wishlist
+  const cartContext = useContext(UserContext);
 
   if (!cartContext) {
     return null;
   }
 
-  const { handleAddToCart } = cartContext;
+  const { handleAddToCart, handleAddToWishlist, handleDeletewishlistitem } =
+    cartContext;
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -55,6 +58,13 @@ function Page() {
               category: data.category,
               desc: data.desc,
             });
+
+            // Check if item is already in wishlist
+            // This logic should ideally come from your backend or another state
+            // management system where you can track wishlist items for the user
+            // Here, we are simulating it with a hardcoded check based on item.id
+            // Replace with your actual logic to check if the item is in the wishlist
+            setIsAdded(false); // Initially assuming item is not in wishlist
           } else {
             console.log("No such document!");
           }
@@ -83,6 +93,18 @@ function Page() {
       handleAddToCart(item, size);
       setSelectedSize(null);
     }
+  };
+
+  const handleaddwish = (item: any) => {
+    handleAddToWishlist(item as any);
+    setIsAdded(true); // Set isAdded to true when item is added to wishlist
+    alert("Item added to wishlist!");
+  };
+
+  const handledelwish = (itemId: string) => {
+    handleDeletewishlistitem(itemId);
+    setIsAdded(false); // Set isAdded to false when item is removed from wishlist
+    alert("Item removed from wishlist!");
   };
 
   const getSizesArray = (sizesString: string) => {
@@ -151,10 +173,30 @@ function Page() {
               <IoIosArrowForward size={24} />
             </button>
           </div>
-          <div className="w-full md:w-1/2">
-            <h1 className="text-3xl text-white font-bold mb-4 underline">
-              {item.name}
-            </h1>
+          <div className="w-full  md:w-1/2">
+            <div className="flex gap-10">
+              <h1 className="text-3xl text-white font-bold mb-4 underline">
+                {item.name}
+              </h1>
+              <button
+                className="text-white text-sm mb-4 w-[40px] h-[40px]"
+                onClick={() =>
+                  isAdded ? handledelwish(item.id) : handleaddwish(item)
+                }
+                style={{
+                  color: isAdded ? "white" : "black",
+                  backgroundColor: isAdded ? "green" : "white",
+                  padding: "10px",
+                  borderRadius: "50%",
+                }}
+              >
+                <FaHeart
+                  style={{
+                    fontSize: "18px",
+                  }}
+                />
+              </button>
+            </div>
             <p className="text-green-600 text-3xl font-bold mb-4">
               Price: ₹{item.price}
             </p>

@@ -4,6 +4,7 @@ const config: Config = {
   content: [
     "./src/screen/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/HomePageComponents/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/Card/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {

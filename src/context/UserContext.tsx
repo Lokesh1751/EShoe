@@ -36,25 +36,31 @@ interface Shoe {
 
 interface CartContextProps {
   cartItems: CartItem[];
+  wishlist: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  setwishlist: React.Dispatch<React.SetStateAction<CartItem[]>>;
   handleDeleteCartItem: (itemIndex: number) => Promise<void>;
   handleClearCart: () => Promise<void>;
   handleOrderPlace: () => Promise<void>;
   handleAddToCart: (shoe: Shoe, sze: number) => Promise<void>;
+  handleAddToWishlist: (shoe: Shoe) => Promise<void>;
+  handleDeletewishlistitem: (itemId: string) => Promise<void>;
 }
 
-export const CartContext = createContext<CartContextProps | undefined>(
+export const UserContext = createContext<CartContextProps | undefined>(
   undefined
 );
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [user, setUser] = useState<any | null>(null);
+  const [wishlist, setwishlist] = useState<CartItem[]>([]);
 
   useEffect(() => {
     const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((currentUser) => {
       setUser(currentUser);
     });
+
     return unsubscribe; // Unsubscribe when component unmounts
   }, []);
 
@@ -92,6 +98,42 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     fetchCartItems();
+  }, [user]);
+
+  useEffect(() => {
+    const fetchWishlistItems = async () => {
+      try {
+        if (user && user.email) {
+          const q = query(
+            collection(FIRESTORE_DB, "wishlist"),
+            where("email", "==", user.email)
+          );
+          const querySnapshot = await getDocs(q);
+
+          const wishlistItemsData: CartItem[] = [];
+          querySnapshot.forEach((doc) => {
+            const { items } = doc.data();
+            items.forEach((item: any) => {
+              const { id, name, price, url } = item;
+              const wishlistItem: CartItem = {
+                id,
+                name,
+                price: Number(price),
+                quantity: 1, // Assuming wishlist items have a default quantity of 1
+                url,
+              };
+              wishlistItemsData.push(wishlistItem);
+            });
+          });
+
+          setwishlist(wishlistItemsData);
+        }
+      } catch (error) {
+        console.error("Error fetching wishlist items:", error);
+      }
+    };
+
+    fetchWishlistItems();
   }, [user]);
 
   const handleAddToCart = async (shoe: Shoe, sze: number) => {
@@ -203,18 +245,88 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const handleAddToWishlist = async (shoe: Shoe) => {
+    try {
+      if (!user || !user.email) {
+        throw new Error("User not authenticated.");
+      }
+
+      const db = FIRESTORE_DB;
+      const wishlistRef = doc(db, "wishlist", user.email);
+
+      // Fetch current wishlist items from Firestore and update with new item
+      const wishlistSnapshot = await getDoc(wishlistRef);
+      let updatedWishlistItems: any[] = [];
+
+      if (wishlistSnapshot.exists()) {
+        const wishlistData = wishlistSnapshot.data();
+        updatedWishlistItems = wishlistData.items || [];
+      }
+
+      const newItem = {
+        id: shoe.id,
+        name: shoe.name,
+        url: shoe.url,
+        price: Number(shoe.price),
+        quantity: 1, // Set default quantity to 1
+        addedAt: new Date().toISOString(),
+      };
+
+      updatedWishlistItems.push(newItem); // Add new item to local array
+
+      await setDoc(wishlistRef, {
+        email: user.email,
+        items: updatedWishlistItems,
+      });
+
+      setwishlist(updatedWishlistItems);
+    } catch (error) {
+      console.error("Error adding item to wishlist:", error);
+      alert("Failed to add item to wishlist. Please Login First.");
+    }
+  };
+
+  const handleDeletewishlistitem = async (itemId: string) => {
+    try {
+      if (user && user.email) {
+        const wishlistRef = doc(FIRESTORE_DB, "wishlist", user.email);
+        const wishlistSnapshot = await getDoc(wishlistRef);
+
+        if (wishlistSnapshot.exists()) {
+          const wishlistData = wishlistSnapshot.data();
+          const updatedItems = wishlistData.items.filter(
+            (item: any) => item.id !== itemId
+          );
+
+          await setDoc(wishlistRef, { ...wishlistData, items: updatedItems });
+
+          setwishlist(updatedItems);
+          console.log(
+            `Item with ID ${itemId} deleted successfully from wishlist.`
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting item from wishlist:", error);
+    }
+  };
+
   return (
-    <CartContext.Provider
+    <UserContext.Provider
       value={{
         cartItems,
         setCartItems,
+        wishlist,
+        setwishlist,
         handleAddToCart,
         handleDeleteCartItem,
         handleClearCart,
         handleOrderPlace,
+        handleAddToWishlist,
+        handleDeletewishlistitem,
       }}
     >
       {children}
-    </CartContext.Provider>
+    </UserContext.Provider>
   );
 };
