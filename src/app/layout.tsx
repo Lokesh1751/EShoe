@@ -28,9 +28,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <CartProvider>
-          <Main />
           {children}
-          <Footer />
         </CartProvider>
       </body>
     </html>

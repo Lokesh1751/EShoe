@@ -6,7 +6,7 @@ function HeaderSection() {
     <div
       className="w-full h-[600px] p-14 md:p-8 gap-4 flex flex-col justify-center bg-cover bg-center"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://t3.ftcdn.net/jpg/05/74/12/86/360_F_574128647_mO3OeZLdPObKYOxuWOtoAcqij8yMuDPM.jpg)`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://wallpapers.com/images/hd/cactus-jack-travis-scott-nike-jordans-on-wood-xf2mfuw45cv065i3.jpg)`,
         backgroundRepeat: "no-repeat",
       }}
     >

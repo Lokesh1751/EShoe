@@ -43,6 +43,11 @@ function OrdersPage() {
   }, []);
 
   useEffect(() => {
+    if (!loggedIn) {
+      setLoading(false); // If not logged in as admin, no need to load orders
+      return;
+    }
+
     const ordersRef = collection(FIRESTORE_DB, "orders");
     const subs = onSnapshot(ordersRef, {
       next: (snapshot) => {
@@ -54,11 +59,15 @@ function OrdersPage() {
         setLoading(false);
         setOrders(updatedOrders);
       },
+      error: (error) => {
+        console.error("Error fetching orders:", error);
+        setLoading(false); // Set loading to false even on error
+      },
     });
 
     // Cleanup subscription on unmount
     return () => subs();
-  }, []);
+  }, [loggedIn]);
 
   if (!loggedIn) {
     return (
@@ -75,10 +84,11 @@ function OrdersPage() {
       </div>
     );
   }
+
   if (loading) {
     return (
       <div
-        className="w-screen relative h-screen p-10 flex items-center justify-center text-white font-bold text-3xl"
+        className="w-screen h-screen flex items-center justify-center text-white font-bold text-3xl"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
           backgroundSize: "cover",
@@ -88,11 +98,12 @@ function OrdersPage() {
       >
         Loading...
       </div>
-    ); // Render loading indicator while fetching data
+    );
   }
+
   return (
     <div
-      className="w-screen relative h-screen p-10 flex flex-col"
+      className="w-screen h-screen p-10 flex flex-col"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
         backgroundSize: "cover",

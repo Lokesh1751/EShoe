@@ -37,8 +37,10 @@ interface Shoe {
 interface CartContextProps {
   cartItems: CartItem[];
   wishlist: CartItem[];
+  user: any | null; // User object or null
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
   setwishlist: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  setUser: React.Dispatch<React.SetStateAction<any | null>>;
   handleDeleteCartItem: (itemIndex: number) => Promise<void>;
   handleClearCart: () => Promise<void>;
   handleOrderPlace: () => Promise<void>;
@@ -280,6 +282,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       setwishlist(updatedWishlistItems);
+      alert("Item added to wishlist!");
     } catch (error) {
       console.error("Error adding item to wishlist:", error);
       alert("Failed to add item to wishlist. Please Login First.");
@@ -301,6 +304,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           await setDoc(wishlistRef, { ...wishlistData, items: updatedItems });
 
           setwishlist(updatedItems);
+          alert("Item deleted to wishlist!");
           console.log(
             `Item with ID ${itemId} deleted successfully from wishlist.`
           );
@@ -317,6 +321,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         cartItems,
         setCartItems,
         wishlist,
+        user,
+        setUser,
         setwishlist,
         handleAddToCart,
         handleDeleteCartItem,

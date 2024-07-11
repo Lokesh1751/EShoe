@@ -1,25 +1,29 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
 import { FIREBASE_AUTH } from "../../firebase.config";
 import Link from "next/link";
+import { FaHeart } from "react-icons/fa";
+import { UserContext } from "@/context/UserContext";
 
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [user, setUser] = useState<any | null>(null);
+  const cont = useContext(UserContext);
 
-  useEffect(() => {
-    const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-    return unsubscribe; // Unsubscribe when component unmounts
-  }, []);
+  if (!cont) {
+    return null;
+  }
+
+  const { user, setUser, cartItems, wishlist } = cont;
+
+  // Function to compute total quantity of items in the cart
 
   const handleSignOut = async () => {
     try {
       await FIREBASE_AUTH.signOut(); // Sign out from Firebase
-      setUser(null); // Clear currentUser state
+      // Clear currentUser state
       alert("Logged out successfully.");
+      setUser(null);
     } catch (error) {
       console.error("Error signing out:", error);
       alert("Error signing out. Please try again.");
@@ -39,10 +43,34 @@ function Home() {
             />
           </div>
         </Link>
-        <div className="xl:hidden">
+        <div className="flex  items-center gap-5 ml-4 xl:ml-10">
+          <Link href={user ? "/Wishlist" : "/Login"}>
+            <div className="relative">
+              <p className="flex items-center gap-1 text-gray-500 rounded-full cursor-pointer">
+                <FaHeart size={24} />
+                {wishlist.length > 0 && user && (
+                  <span className="absolute top-[-10px] right-[-10px] bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                    {wishlist.length}
+                  </span>
+                )}
+              </p>
+            </div>
+          </Link>
+          <Link href={user ? "/Cart" : "/Login"}>
+            <div className="relative">
+              <p className="flex items-center gap-1 text-gray-500 rounded-full cursor-pointer">
+                <FaShoppingCart size={24} />
+                {cartItems.length > 0 && user && (
+                  <span className="absolute top-[-10px] right-[-10px] bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                    {cartItems.length}
+                  </span>
+                )}
+              </p>
+            </div>
+          </Link>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="text-gray-500 focus:outline-none"
+            className="text-gray-500 focus:outline-none xl:hidden"
           >
             {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
@@ -54,16 +82,16 @@ function Home() {
           menuOpen ? "flex" : "hidden"
         } flex-col space-y-6 xl:space-y-0 xl:space-x-10 xl:flex xl:flex-row items-center w-full xl:w-auto mt-4 xl:mt-0`}
       >
-        <div className="flex items-center mr-[0px] flex-col gap-5 cursor-pointer xl:flex-row xl:mr-[330px] xl:gap-12">
-          <Link href={"/Men"}>
+        <div className="flex items-center mr-[0px] flex-col gap-5 cursor-pointer xl:flex-row xl:mr-[330px] xl:gap-12" >
+          <Link href={"/Men"} >
             {" "}
-            <span className="text-gray-500 cursor-pointer">Men</span>
+            <span className="text-gray-500 cursor-pointer" onClick={()=>setMenuOpen(false)}>Men</span>
           </Link>
           <Link href={"/Women"}>
-            <span className="text-gray-500 cursor-pointer">Women</span>
+            <span className="text-gray-500 cursor-pointer" onClick={()=>setMenuOpen(false)}>Women</span>
           </Link>
           <Link href={"/Kids"}>
-            <span className="text-gray-500 cursor-pointer">Kids</span>
+            <span className="text-gray-500 cursor-pointer" onClick={()=>setMenuOpen(false)}>Kids</span>
           </Link>
         </div>
         {user ? (
@@ -83,17 +111,9 @@ function Home() {
             <Link href={"/Login"}>Login</Link>
           </p>
         )}
-        <p className="text-gray-500 cursor-pointer">
-          <Link href={"/FeedBacks"}>FeedBacks</Link>
+        <p className="text-gray-500 cursor-pointer" onClick={()=>setMenuOpen(false)}>
+          <Link href={"/FeedBacks"} >FeedBacks</Link>
         </p>
-        <p className="text-gray-500 cursor-pointer">
-          <Link href={"/Wishlist"}>WishList</Link>
-        </p>
-        <Link href={user ? "/Cart" : "/Login"}>
-          <div className="flex gap-1 relative text-gray-500 rounded-full cursor-pointer">
-            <FaShoppingCart size={24} /> <p>Cart</p>
-          </div>
-        </Link>
       </div>
     </div>
   );

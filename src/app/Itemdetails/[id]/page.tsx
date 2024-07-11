@@ -34,8 +34,12 @@ function Page() {
     return null;
   }
 
-  const { handleAddToCart, handleAddToWishlist, handleDeletewishlistitem } =
-    cartContext;
+  const {
+    handleAddToCart,
+    handleAddToWishlist,
+    handleDeletewishlistitem,
+    user,
+  } = cartContext;
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -98,13 +102,11 @@ function Page() {
   const handleaddwish = (item: any) => {
     handleAddToWishlist(item as any);
     setIsAdded(true); // Set isAdded to true when item is added to wishlist
-    alert("Item added to wishlist!");
   };
 
   const handledelwish = (itemId: string) => {
     handleDeletewishlistitem(itemId);
     setIsAdded(false); // Set isAdded to false when item is removed from wishlist
-    alert("Item removed from wishlist!");
   };
 
   const getSizesArray = (sizesString: string) => {
@@ -184,8 +186,8 @@ function Page() {
                   isAdded ? handledelwish(item.id) : handleaddwish(item)
                 }
                 style={{
-                  color: isAdded ? "white" : "black",
-                  backgroundColor: isAdded ? "green" : "white",
+                  color: user && isAdded ? "white" : "black",
+                  backgroundColor: user && isAdded ? "green" : "white",
                   padding: "10px",
                   borderRadius: "50%",
                 }}

@@ -4,13 +4,13 @@ import { FaTrash } from "react-icons/fa";
 import { UserContext } from "@/context/UserContext";
 
 const Cart: React.FC = () => {
-  const cartContext = useContext(UserContext);
+  const wishContext = useContext(UserContext);
 
-  if (!cartContext) {
+  if (!wishContext) {
     return <div>Loading...</div>;
   }
 
-  const { wishlist, handleDeletewishlistitem } = cartContext;
+  const { wishlist, handleDeletewishlistitem } = wishContext;
 
   return (
     <div className="cart-container max-w-6xl mx-auto p-4">
