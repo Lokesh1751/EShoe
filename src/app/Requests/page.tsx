@@ -1,6 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FIRESTORE_DB } from "../../../firebase.config";
+import { AdminContext } from "@/context/AdminContext";
 import {
   collection,
   onSnapshot,
@@ -22,30 +23,11 @@ interface RecyclingRequest {
 
 function Page() {
   const [requests, setRequests] = useState<RecyclingRequest[]>([]);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchAdminStatus = async () => {
-      try {
-        const docRef = doc(FIRESTORE_DB, "admincred", "admincred"); // Replace with actual document ID
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const { loggedIn } = docSnap.data();
-          setLoggedIn(loggedIn);
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error fetching document:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAdminStatus();
-  }, []);
+  const adminContext = useContext(AdminContext);
+  if (!adminContext) {
+    return;
+  }
+  const { loggedIn, loading } = adminContext;
 
   useEffect(() => {
     const userRef = collection(FIRESTORE_DB, "recyclingRequests");

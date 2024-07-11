@@ -1,36 +1,17 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FIRESTORE_DB } from "../../../firebase.config";
 import { getDoc, doc, updateDoc } from "firebase/firestore";
+import { AdminContext } from "@/context/AdminContext";
 import Link from "next/link";
 
 function Page() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
-
-  useEffect(() => {
-    const fetchAdminStatus = async () => {
-      try {
-        const docRef = doc(FIRESTORE_DB, "admincred", "admincred");
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const { loggedIn, username } = docSnap.data();
-          setLoggedIn(loggedIn);
-          setEmail(username);
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error fetching document:", error);
-      } finally {
-        setLoading(false); // Set loading to false when done fetching
-      }
-    };
-
-    fetchAdminStatus();
-  }, []);
+  const adminContext = useContext(AdminContext);
+  if (!adminContext) {
+    return;
+  }
+  const { loggedIn, loading, setLoggedIn } = adminContext;
 
   const handleLogout = async () => {
     try {

@@ -53,7 +53,7 @@ export const UserContext = createContext<CartContextProps | undefined>(
   undefined
 );
 
-export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [user, setUser] = useState<any | null>(null);
   const [wishlist, setwishlist] = useState<CartItem[]>([]);

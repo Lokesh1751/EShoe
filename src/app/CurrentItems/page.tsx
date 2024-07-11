@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FIRESTORE_DB } from "../../../firebase.config"; // Adjust the path to your Firebase configuration
 import {
   collection,
@@ -9,10 +9,14 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import { AdminContext } from "@/context/AdminContext";
 
 function Page() {
   const [items, setItems] = useState<Shoe[]>([]);
   const [editItem, setEditItem] = useState<Shoe | null>(null); // State to hold item being edited
+  const adminContext = useContext(AdminContext);
+  if (!adminContext) return;
+  const { loggedIn, loading } = adminContext;
 
   interface Shoe {
     id: string;
@@ -36,7 +40,7 @@ function Page() {
       }
     };
     fetchItems();
-  }, []);
+  }, [loggedIn]);
 
   const handleDelete = async (itemId: string) => {
     try {
@@ -77,6 +81,37 @@ function Page() {
       console.error("Error updating item: ", error);
     }
   };
+  if (!loggedIn) {
+    return (
+      <div
+        className="w-screen h-screen flex items-center justify-center text-white text-2xl font-bold"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        You are not logged in as admin. Please login as admin.
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div
+        className="w-screen h-screen flex items-center justify-center text-white font-bold text-3xl"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div

@@ -1,37 +1,19 @@
 // pages/admin/index.tsx
 "use client";
-import React, { useState, useEffect } from "react";
-import { FIRESTORE_DB } from "../../../firebase.config";
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import React, { useContext } from "react";
+import { AdminContext } from "@/context/AdminContext";
 import SideNav from "@/Admincomponents/SideNav";
 import Form from "@/Admincomponents/Form";
 import Link from "next/link";
 
 const Admin: React.FC = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const adminContext = useContext(AdminContext);
 
-  useEffect(() => {
-    const fetchAdminStatus = async () => {
-      try {
-        const docRef = doc(FIRESTORE_DB, "admincred", "admincred");
-        const docSnap = await getDoc(docRef);
+  if (!adminContext) {
+    return <div>Loading...</div>;
+  }
 
-        if (docSnap.exists()) {
-          const { loggedIn } = docSnap.data();
-          setLoggedIn(loggedIn);
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error fetching document:", error);
-      } finally {
-        setLoading(false); // Set loading to false when done fetching
-      }
-    };
-
-    fetchAdminStatus();
-  }, []);
+  const { loggedIn, loading } = adminContext;
 
   if (loading) {
     return (
@@ -69,10 +51,11 @@ const Admin: React.FC = () => {
           <p className="text-xl font-semibold mb-4 text-white">
             You are not logged in.
           </p>
-      <Link href={'/AdminLogin'}>
-      <p className="text-white transition duration-300 ease-in-out inline-block cursor-pointer">
-            Login as Admin
-          </p></Link>
+          <Link href={"/AdminLogin"}>
+            <p className="text-white transition duration-300 ease-in-out inline-block cursor-pointer">
+              Login as Admin
+            </p>
+          </Link>
         </div>
       )}
     </div>
