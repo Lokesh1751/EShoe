@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import { UserContext } from "@/context/UserContext";
 import useCoupons from "@/hook/Fetchcoupan"; // Adjust the path as necessary
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const Cart: React.FC = () => {
   const cartContext = useContext(UserContext);
@@ -24,7 +25,7 @@ const Cart: React.FC = () => {
   const { coupons, loading } = useCoupons(user);
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
-  console.log(coupons);
+  const [vis, setVis] = useState(false);
 
   const handleApplyCoupon = () => {
     const normalizedCouponCode = couponCode.trim().toLowerCase();
@@ -32,14 +33,12 @@ const Cart: React.FC = () => {
       (c) => c.coupancode.trim().toLowerCase() === normalizedCouponCode
     );
 
-    console.log("Available Coupons:", coupons); // Log available coupons
-    console.log("Coupon being applied:", coupon); // Log the selected coupon
-
     if (coupon) {
       const minPrice = parseFloat(coupon.minprice);
       const discount = parseFloat(coupon.discount);
 
       if (tprice >= minPrice) {
+        const discountedPrice = tprice - (tprice * discount) / 100;
         setDiscount(discount); // Apply discount
         settprice(discountedPrice);
         alert("Coupon applied successfully!");
@@ -49,6 +48,11 @@ const Cart: React.FC = () => {
     } else {
       alert("Invalid coupon code!");
     }
+  };
+
+  const handleApply = (coupon: string) => {
+    setCouponCode(coupon);
+    handleApplyCoupon();
   };
 
   const discountedPrice = tprice - (tprice * discount) / 100;
@@ -103,21 +107,81 @@ const Cart: React.FC = () => {
           </div>
 
           <div className="mt-6">
-            <h3 className="text-lg font-medium">Apply Coupon</h3>
-            <div className="flex items-center">
-              <input
-                type="text"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value)}
-                placeholder="Enter coupon code"
-                className="border border-gray-300 rounded-md p-2 mr-2"
-              />
-              <button
-                onClick={handleApplyCoupon}
-                className="bg-red-600 text-white rounded-md px-4 py-2"
-              >
-                Apply
-              </button>
+            <h3 className="text-2xl font-bold flex gap-4">
+              Apply Coupon{" "}
+              {!vis ? (
+                <FaArrowDown
+                  onClick={() => setVis(!vis)}
+                  style={{
+                    fontSize: "30px",
+                    color: "black",
+                    cursor: "pointer",
+                    border: "1px solid black",
+                    borderRadius: "50%",
+                    padding: "4px",
+                  }}
+                />
+              ) : (
+                <FaArrowUp
+                  onClick={() => setVis(!vis)}
+                  style={{
+                    fontSize: "30px",
+                    color: "black",
+                    cursor: "pointer",
+                    border: "1px solid black",
+                    borderRadius: "50%",
+                    padding: "4px",
+                  }}
+                />
+              )}
+            </h3>
+            <div
+              className={`transition-all duration-500 ease-in-out ${
+                vis ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+              } overflow-hidden`}
+            >
+              <div className="flex flex-col">
+                <div className="flex items-center mt-4">
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    placeholder="Enter coupon code"
+                    className="border border-gray-300 rounded-md p-2 mr-2"
+                  />
+                  <button
+                    onClick={handleApplyCoupon}
+                    className="bg-red-600 text-white rounded-md px-4 py-2"
+                  >
+                    Apply
+                  </button>
+                </div>
+
+                <div className="flex  gap-5 mt-4">
+                  {coupons.map((item) => (
+                    <div
+                      key={item.coupancode}
+                      className="flex flex-col gap-3 border w-[400px] p-2 rounded-xl border-gray-600"
+                    >
+                      <p className="font-bold text-xl">{item.coupancode}</p>
+                      <p className="text-gray-500">
+                        Minimum Price required to apply this coupon is: ₹
+                        {item.minprice}
+                      </p>
+                      <p className="font-bold text-red-700 text-lg">
+                        After applying this coupon, you will get {item.discount}
+                        % discount
+                      </p>
+                      <button
+                        onClick={() => handleApply(item.coupancode)}
+                        className="bg-red-600 text-white rounded-md px-4 py-2"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -125,7 +189,7 @@ const Cart: React.FC = () => {
         <div className="flex flex-col items-center">
           <img
             src="https://static.vecteezy.com/system/resources/previews/016/026/442/original/empty-shopping-cart-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg"
-            alt=""
+            alt="Empty Cart"
             className="w-[500px] h-[500px]"
           />
           <p className="text-3xl font-bold">Cart is Empty!</p>
