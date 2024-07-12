@@ -15,7 +15,7 @@ const Admin: React.FC = () => {
   if (loading) {
     return (
       <div
-        className="w-full h-full flex items-center justify-center text-white font-bold text-3xl"
+        className="w-screen h-screen flex items-center justify-center text-white font-bold text-3xl"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
           backgroundSize: "cover",

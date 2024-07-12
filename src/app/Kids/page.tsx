@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebase.config";
 import ShoeCard from "../../Card/ShoeCard";
+import Main from "@/HomePageComponents/Main";
 
 interface Shoe {
   id: string;
@@ -73,6 +74,7 @@ function Kids() {
 
   return (
     <div>
+      <Main />
       <div
         className="p-10 w-screen flex flex-col items-center justify-center "
         style={{
@@ -133,7 +135,17 @@ function Kids() {
           </button>
         </div>
         {loading ? (
-          <div className="text-white text-2xl font-bold">Loading...</div> // Display loading indicator
+          <div
+            className="w-screen h-screen flex justify-center mx-auto px-10 py-12"
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <h1 className="text-white text-3xl font-bold">Loading...</h1>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-20">
             {cat.map((shoe) => (

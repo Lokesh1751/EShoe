@@ -137,7 +137,7 @@ function Page() {
               className="mb-2 rounded-lg"
               style={{ width: "100%", height: "60%" }}
             />
-            <p className="text-gray-700 mb-2">Price: ${item.price}</p>
+            <p className="text-gray-700 mb-2">Price: ₹{item.price}</p>
             <div className="flex space-x-2">
               <button
                 onClick={() => handleEdit(item)}

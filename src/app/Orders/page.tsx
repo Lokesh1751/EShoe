@@ -16,19 +16,24 @@ interface Order {
   id: string;
   email: string;
   orderItems: OrderItem[];
+  price: number; // Ensure price is included
 }
 
 function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState<boolean>(true); // Separate loading state
+
   const adminContext = useContext(AdminContext);
+
   if (!adminContext) {
-    return;
+    return null; // Return null if context is not available
   }
+
   const { loggedIn, loading, setLoading } = adminContext;
 
   useEffect(() => {
     if (!loggedIn) {
-      setLoading(false); // If not logged in as admin, no need to load orders
+      setLoadingOrders(false); // If not logged in as admin, stop loading orders
       return;
     }
 
@@ -38,14 +43,18 @@ function OrdersPage() {
         const updatedOrders = snapshot.docs.map((doc) => ({
           id: doc.id,
           email: doc.data().email,
-          orderItems: doc.data().orderitems, // Adjust this based on your Firestore structure
+          orderItems: doc.data().orderItems,
+          price: doc.data().price, // Fetch the price from Firestore
         })) as Order[];
+        console.log("Fetched Orders:", updatedOrders); // Debugging line
         setLoading(false);
+        setLoadingOrders(false); // Stop loading orders once fetched
         setOrders(updatedOrders);
       },
       error: (error) => {
         console.error("Error fetching orders:", error);
         setLoading(false); // Set loading to false even on error
+        setLoadingOrders(false); // Stop loading orders on error
       },
     });
 
@@ -69,7 +78,7 @@ function OrdersPage() {
     );
   }
 
-  if (loading) {
+  if (loadingOrders) {
     return (
       <div
         className="w-screen h-screen flex items-center justify-center text-white font-bold text-3xl"
@@ -97,17 +106,17 @@ function OrdersPage() {
     >
       <h1 className="text-2xl font-bold mb-4 text-white">Orders</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {orders.map((order) => (
-          <div
-            key={order.id}
-            className="border p-4 bg-white rounded-lg shadow-md"
-          >
-            <h2 className="text-lg font-semibold mb-2">
-              Ordered by: {order.email}
-            </h2>
-            <ul className="flex flex-col gap-4">
-              {order.orderItems &&
-                order.orderItems.map((item) => (
+        {orders.length > 0 ? (
+          orders.map((order) => (
+            <div
+              key={order.id}
+              className="border p-4 bg-white rounded-lg shadow-md"
+            >
+              <h2 className="text-lg font-semibold mb-2">
+                Ordered by: {order.email}
+              </h2>
+              <ul className="flex flex-col gap-4">
+                {order.orderItems.map((item) => (
                   <li key={item.id} className="flex items-center gap-4">
                     <img
                       src={item.url}
@@ -116,14 +125,20 @@ function OrdersPage() {
                     />
                     <div className="flex flex-col">
                       <p className="text-lg font-medium">{item.name}</p>
-                      <p className="text-gray-600">Price: ${item.price}</p>
+                      <p className="text-gray-600">Price: ₹{item.price}</p>
                       <p className="text-gray-600">Quantity: {item.quantity}</p>
                     </div>
                   </li>
                 ))}
-            </ul>
-          </div>
-        ))}
+              </ul>
+              <p className="text-red-500 mt-2 font-bold">
+                Total Price: ₹{order.price}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p className="text-white">No orders available.</p>
+        )}
       </div>
     </div>
   );

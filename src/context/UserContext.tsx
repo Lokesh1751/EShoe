@@ -37,8 +37,10 @@ interface Shoe {
 interface CartContextProps {
   cartItems: CartItem[];
   wishlist: CartItem[];
-  user: any | null; // User object or null
+  user: any | null;
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  tprice: number;
+  settprice: React.Dispatch<React.SetStateAction<number>>;
   setwishlist: React.Dispatch<React.SetStateAction<CartItem[]>>;
   setUser: React.Dispatch<React.SetStateAction<any | null>>;
   handleDeleteCartItem: (itemIndex: number) => Promise<void>;
@@ -57,13 +59,14 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [user, setUser] = useState<any | null>(null);
   const [wishlist, setwishlist] = useState<CartItem[]>([]);
+  const [tprice, settprice] = useState(0);
 
   useEffect(() => {
     const unsubscribe = FIREBASE_AUTH.onAuthStateChanged((currentUser) => {
       setUser(currentUser);
     });
 
-    return unsubscribe; // Unsubscribe when component unmounts
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
@@ -121,7 +124,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 id,
                 name,
                 price: Number(price),
-                quantity: 1, // Assuming wishlist items have a default quantity of 1
+                quantity: 1,
                 url,
               };
               wishlistItemsData.push(wishlistItem);
@@ -138,6 +141,14 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     fetchWishlistItems();
   }, [user]);
 
+  useEffect(() => {
+    const totalPrice = cartItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    settprice(totalPrice);
+  }, [cartItems]);
+
   const handleAddToCart = async (shoe: Shoe, sze: number) => {
     try {
       if (!user || !user.email) {
@@ -147,7 +158,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const db = FIRESTORE_DB;
       const cartRef = doc(db, "carts", user.email);
 
-      // Fetch current cart items from Firestore and update with new item
       const cartSnapshot = await getDoc(cartRef);
       let updatedCartItems: any[] = [];
 
@@ -161,12 +171,12 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         name: shoe.name,
         url: shoe.url,
         price: Number(shoe.price),
-        quantity: 1, // Set default quantity to 1
+        quantity: 1,
         addedAt: new Date().toISOString(),
         size: sze,
       };
 
-      updatedCartItems.push(newItem); // Add new item to local array
+      updatedCartItems.push(newItem);
 
       await setDoc(cartRef, {
         email: user.email,
@@ -185,23 +195,15 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       if (user && user.email) {
         const cartRef = doc(FIRESTORE_DB, "carts", user.email);
-        const cartSnapshot = await getDocs(
-          query(
-            collection(FIRESTORE_DB, "carts"),
-            where("email", "==", user.email)
-          )
-        );
+        const cartSnapshot = await getDoc(cartRef);
 
-        if (!cartSnapshot.empty) {
-          const cartDoc = cartSnapshot.docs[0];
-          const cartData = cartDoc.data();
-
+        if (cartSnapshot.exists()) {
+          const cartData = cartSnapshot.data();
           const updatedItems = cartData.items.filter(
             (_: any, index: any) => index !== itemIndex
           );
 
           await setDoc(cartRef, { ...cartData, items: updatedItems });
-
           setCartItems(updatedItems);
           console.log(`Item at index ${itemIndex} deleted successfully.`);
         }
@@ -226,6 +228,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         await Promise.all(deletePromises);
 
         setCartItems([]);
+        settprice(0); // Reset total price
         console.log("Cart cleared successfully.");
       }
     } catch (error) {
@@ -238,10 +241,11 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       await addDoc(collection(FIRESTORE_DB, "orders"), {
         orderItems: cartItems,
         email: user.email,
+        price: tprice,
       });
       alert("Order Placed Successfully!!");
       handleClearCart();
-      setCartItems([]);
+      settprice(0);
     } catch (error) {
       console.error("Error placing order:", error);
     }
@@ -256,7 +260,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       const db = FIRESTORE_DB;
       const wishlistRef = doc(db, "wishlist", user.email);
 
-      // Fetch current wishlist items from Firestore and update with new item
       const wishlistSnapshot = await getDoc(wishlistRef);
       let updatedWishlistItems: any[] = [];
 
@@ -270,11 +273,11 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         name: shoe.name,
         url: shoe.url,
         price: Number(shoe.price),
-        quantity: 1, // Set default quantity to 1
+        quantity: 1,
         addedAt: new Date().toISOString(),
       };
 
-      updatedWishlistItems.push(newItem); // Add new item to local array
+      updatedWishlistItems.push(newItem);
 
       await setDoc(wishlistRef, {
         email: user.email,
@@ -304,7 +307,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           await setDoc(wishlistRef, { ...wishlistData, items: updatedItems });
 
           setwishlist(updatedItems);
-          alert("Item deleted to wishlist!");
+          alert("Item deleted from wishlist!");
           console.log(
             `Item with ID ${itemId} deleted successfully from wishlist.`
           );
@@ -322,6 +325,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         setCartItems,
         wishlist,
         user,
+        tprice,
+        settprice,
         setUser,
         setwishlist,
         handleAddToCart,

@@ -84,7 +84,7 @@ function FeedbackPage() {
     return (
       <div>
         <div
-          className="max-w-full mx-auto px-10 py-12"
+          className="w-screen h-screen flex items-center justify-center mx-auto px-10 py-12"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
             backgroundSize: "cover",
@@ -92,7 +92,7 @@ function FeedbackPage() {
             backgroundRepeat: "no-repeat",
           }}
         >
-          <h1 className="text-white text-2xl font-bold">Loading...</h1>
+          <h1 className="text-white text-3xl font-bold">Loading...</h1>
         </div>
       </div>
     );
