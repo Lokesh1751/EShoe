@@ -108,7 +108,7 @@ function Home() {
           </Link>
         </div>
         {user ? (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2"   onClick={() => setMenuOpen(!menuOpen)}>
             <div className="bg-red-600 rounded-full w-10 h-10 flex items-center justify-center text-white text-xl">
               {user.email.slice(0, 1).toUpperCase()}
             </div>
@@ -120,7 +120,7 @@ function Home() {
             </button>
           </div>
         ) : (
-          <p className="text-gray-500 cursor-pointer">
+          <p className="text-gray-500 cursor-pointer"   onClick={() => setMenuOpen(!menuOpen)}>
             <Link href={"/Login"}>Login</Link>
           </p>
         )}

@@ -67,7 +67,7 @@ function Page() {
   if (loading) {
     return (
       <div
-        className="w-screen relative h-screen p-10 flex items-center justify-center text-white font-bold text-3xl"
+        className="w-full relative h-full p-10 flex items-center justify-center text-white font-bold text-3xl"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
           backgroundSize: "cover",
@@ -97,7 +97,7 @@ function Page() {
 
   return (
     <div
-      className="w-screen relative h-screen p-10 flex flex-col"
+      className="w-screen relative h-full p-10 flex flex-col xl:h-screen"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
         backgroundSize: "cover",
