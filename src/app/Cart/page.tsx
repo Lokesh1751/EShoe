@@ -137,7 +137,7 @@ const Cart: React.FC = () => {
             </h3>
             <div
               className={`transition-all duration-500 ease-in-out ${
-                vis ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+                vis ? "max-h-full opacity-100" : "max-h-0 opacity-0"
               } overflow-hidden`}
             >
               <div className="flex flex-col">
@@ -157,11 +157,11 @@ const Cart: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="flex  gap-5 mt-4">
+                <div className="flex flex-col gap-5 mt-4 sm:flex-row sm:flex-wrap">
                   {coupons.map((item) => (
                     <div
                       key={item.coupancode}
-                      className="flex flex-col gap-3 border w-[400px] p-2 rounded-xl border-gray-600"
+                      className="flex flex-col gap-3 border w-full sm:w-1/2 lg:w-1/3 p-2 rounded-xl border-gray-600 "
                     >
                       <p className="font-bold text-xl">{item.coupancode}</p>
                       <p className="text-gray-500">
