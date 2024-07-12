@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { FaHome, FaEye, FaEyeSlash } from "react-icons/fa"; // Importing eye icons
 import Link from "next/link";
@@ -12,13 +12,18 @@ import {
   doc,
 } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebase.config";
+import { AdminContext } from "@/context/AdminContext";
 
 export default function Adlogin() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const router = useRouter();
+  const adminContext = useContext(AdminContext);
+  if (!adminContext) {
+    return;
+  }
+  const { loggedIn, setLoggedIn } = adminContext;
 
   const nextChar = (char: string) => {
     const code = char.charCodeAt(0);

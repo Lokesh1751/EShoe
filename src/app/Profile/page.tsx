@@ -1,29 +1,14 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
-import { FIRESTORE_DB } from "../../../firebase.config";
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import React, { useContext } from "react";
 import { AdminContext } from "@/context/AdminContext";
 import Link from "next/link";
 
 function Page() {
-  const [email, setEmail] = useState("");
   const adminContext = useContext(AdminContext);
   if (!adminContext) {
     return;
   }
-  const { loggedIn, loading, setLoggedIn } = adminContext;
-
-  const handleLogout = async () => {
-    try {
-      const docRef = doc(FIRESTORE_DB, "admincred", "admincred");
-      await updateDoc(docRef, {
-        loggedIn: false,
-      });
-      setLoggedIn(false);
-    } catch (error) {
-      console.error("Error updating document:", error);
-    }
-  };
+  const { loggedIn, loading, handleLogout } = adminContext;
 
   if (loading) {
     return (
@@ -54,7 +39,7 @@ function Page() {
       {loggedIn ? (
         <div className="bg-white shadow-md rounded-lg p-10 flex flex-col items-center">
           <div className="text-2xl font-bold mb-4">Lokesh Kumar</div>
-          <div className="text-gray-600 mb-4">{email}</div>
+          <div className="text-gray-600 mb-4">lokesh@gmail.com</div>
           <Link href={"/"}>
             <button
               onClick={handleLogout}

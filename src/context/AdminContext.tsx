@@ -1,18 +1,23 @@
-"use client"
+"use client";
 import React, { createContext, useState, useEffect } from "react";
 import { FIRESTORE_DB } from "../../firebase.config";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc,updateDoc } from "firebase/firestore";
 
 interface UserContextType {
   loggedIn: boolean;
   loading: boolean;
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  handleLogout: ()=> void
 }
 
-export const AdminContext = createContext<UserContextType | undefined>(undefined);
+export const AdminContext = createContext<UserContextType | undefined>(
+  undefined
+);
 
-export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -38,8 +43,21 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     fetchAdminStatus();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      const docRef = doc(FIRESTORE_DB, "admincred", "admincred");
+      await updateDoc(docRef, {
+        loggedIn: false,
+      });
+      setLoggedIn(false);
+    } catch (error) {
+      console.error("Error updating document:", error);
+    }
+  };
   return (
-    <AdminContext.Provider value={{ loggedIn, loading, setLoggedIn, setLoading }}>
+    <AdminContext.Provider
+      value={{ loggedIn, loading, setLoggedIn, setLoading,handleLogout }}
+    >
       {children}
     </AdminContext.Provider>
   );

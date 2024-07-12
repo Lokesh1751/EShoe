@@ -18,7 +18,6 @@ interface Item {
   gender: string;
   category: string;
   desc: string;
-  // Add other fields that your items have
 }
 
 function Page() {
@@ -27,7 +26,6 @@ function Page() {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
-  const [isAdded, setIsAdded] = useState<boolean>(false); // State for checking if item is added to wishlist
   const cartContext = useContext(UserContext);
 
   if (!cartContext) {
@@ -40,6 +38,8 @@ function Page() {
     handleDeletewishlistitem,
     user,
   } = cartContext;
+
+  const [isAdded, setIsAdded] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -64,11 +64,10 @@ function Page() {
             });
 
             // Check if item is already in wishlist
-            // This logic should ideally come from your backend or another state
-            // management system where you can track wishlist items for the user
-            // Here, we are simulating it with a hardcoded check based on item.id
-            // Replace with your actual logic to check if the item is in the wishlist
-            setIsAdded(false); // Initially assuming item is not in wishlist
+            const wishlist = JSON.parse(
+              localStorage.getItem("wishlist") || "[]"
+            );
+            setIsAdded(wishlist.includes(docSnap.id));
           } else {
             console.log("No such document!");
           }
@@ -83,7 +82,7 @@ function Page() {
   }, [params.id]);
 
   const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % 3); // Assuming there are three images (url, url2, url3)
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % 3);
   };
 
   const handlePrevImage = () => {
@@ -101,12 +100,18 @@ function Page() {
 
   const handleaddwish = (item: any) => {
     handleAddToWishlist(item as any);
-    setIsAdded(true); // Set isAdded to true when item is added to wishlist
+    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    wishlist.push(item.id);
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    setIsAdded(true);
   };
 
   const handledelwish = (itemId: string) => {
     handleDeletewishlistitem(itemId);
-    setIsAdded(false); // Set isAdded to false when item is removed from wishlist
+    const wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    const updatedWishlist = wishlist.filter((id: string) => id !== itemId);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+    setIsAdded(false);
   };
 
   const getSizesArray = (sizesString: string) => {
@@ -135,7 +140,7 @@ function Page() {
   }
 
   if (!item) {
-    return <div>No item found.</div>; // Handle case where item is null
+    return <div>No item found.</div>;
   }
 
   return (
@@ -169,13 +174,13 @@ function Page() {
               alt={item.name}
             />
             <button
-              className="absolute right-0 top-1/2 transform -translate-y-1/2  p-2 rounded-full"
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2 rounded-full"
               onClick={handleNextImage}
             >
               <IoIosArrowForward size={24} />
             </button>
           </div>
-          <div className="w-full  md:w-1/2">
+          <div className="w-full md:w-1/2">
             <div className="flex gap-10">
               <h1 className="text-3xl text-white font-bold mb-4 underline">
                 {item.name}

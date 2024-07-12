@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AdminContext } from "@/context/AdminContext";
 import { FIRESTORE_DB } from "../../../firebase.config";
-import { collection, onSnapshot, doc, getDoc } from "firebase/firestore";
+import { collection, onSnapshot } from "firebase/firestore";
 
 interface OrderItem {
   id: string;

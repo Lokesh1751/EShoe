@@ -16,12 +16,10 @@ function Home() {
 
   const { user, setUser, cartItems, wishlist } = cont;
 
-  // Function to compute total quantity of items in the cart
-
   const handleSignOut = async () => {
     try {
-      await FIREBASE_AUTH.signOut(); // Sign out from Firebase
-      // Clear currentUser state
+      await FIREBASE_AUTH.signOut();
+
       alert("Logged out successfully.");
       setUser(null);
     } catch (error) {
@@ -82,16 +80,31 @@ function Home() {
           menuOpen ? "flex" : "hidden"
         } flex-col space-y-6 xl:space-y-0 xl:space-x-10 xl:flex xl:flex-row items-center w-full xl:w-auto mt-4 xl:mt-0`}
       >
-        <div className="flex items-center mr-[0px] flex-col gap-5 cursor-pointer xl:flex-row xl:mr-[330px] xl:gap-12" >
-          <Link href={"/Men"} >
+        <div className="flex items-center mr-[0px] flex-col gap-5 cursor-pointer xl:flex-row xl:mr-[330px] xl:gap-12">
+          <Link href={"/Men"}>
             {" "}
-            <span className="text-gray-500 cursor-pointer" onClick={()=>setMenuOpen(false)}>Men</span>
+            <span
+              className="text-gray-500 cursor-pointer"
+              onClick={() => setMenuOpen(false)}
+            >
+              Men
+            </span>
           </Link>
           <Link href={"/Women"}>
-            <span className="text-gray-500 cursor-pointer" onClick={()=>setMenuOpen(false)}>Women</span>
+            <span
+              className="text-gray-500 cursor-pointer"
+              onClick={() => setMenuOpen(false)}
+            >
+              Women
+            </span>
           </Link>
           <Link href={"/Kids"}>
-            <span className="text-gray-500 cursor-pointer" onClick={()=>setMenuOpen(false)}>Kids</span>
+            <span
+              className="text-gray-500 cursor-pointer"
+              onClick={() => setMenuOpen(false)}
+            >
+              Kids
+            </span>
           </Link>
         </div>
         {user ? (
@@ -111,8 +124,11 @@ function Home() {
             <Link href={"/Login"}>Login</Link>
           </p>
         )}
-        <p className="text-gray-500 cursor-pointer" onClick={()=>setMenuOpen(false)}>
-          <Link href={"/FeedBacks"} >FeedBacks</Link>
+        <p
+          className="text-gray-500 cursor-pointer"
+          onClick={() => setMenuOpen(false)}
+        >
+          <Link href={"/FeedBacks"}>FeedBacks</Link>
         </p>
       </div>
     </div>
