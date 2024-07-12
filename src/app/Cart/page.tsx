@@ -114,7 +114,7 @@ const Cart: React.FC = () => {
               />
               <button
                 onClick={handleApplyCoupon}
-                className="bg-blue-600 text-white rounded-md px-4 py-2"
+                className="bg-red-600 text-white rounded-md px-4 py-2"
               >
                 Apply
               </button>

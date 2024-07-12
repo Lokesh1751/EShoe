@@ -218,7 +218,7 @@ function Page() {
                     <span
                       key={size}
                       className={`inline-block bg-gray-200 text-black rounded-full cursor-pointer px-3 py-1 text-sm font-semibold mr-2 mb-2 ${
-                        selectedSize === size ? "bg-black text-white" : ""
+                        selectedSize === size ? "bg-gray-950 text-white" : ""
                       }`}
                       onClick={() =>
                         setSelectedSize(selectedSize === size ? null : size)
