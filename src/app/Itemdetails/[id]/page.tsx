@@ -191,15 +191,14 @@ function Page() {
                   isAdded ? handledelwish(item.id) : handleaddwish(item)
                 }
                 style={{
-                  color: user && isAdded ? "white" : "black",
-                  backgroundColor: user && isAdded ? "green" : "white",
-                  padding: "10px",
+                  color: user && isAdded ? "red" : "white",
+
                   borderRadius: "50%",
                 }}
               >
                 <FaHeart
                   style={{
-                    fontSize: "18px",
+                    fontSize: "30px",
                   }}
                 />
               </button>
