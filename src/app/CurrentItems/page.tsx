@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useContext } from "react";
-import { FIRESTORE_DB } from "../../../firebase.config"; // Adjust the path to your Firebase configuration
+import { FIRESTORE_DB } from "../../../firebase.config";
 import {
   collection,
   getDocs,
@@ -13,7 +13,7 @@ import { AdminContext } from "@/context/AdminContext";
 
 function Page() {
   const [items, setItems] = useState<Shoe[]>([]);
-  const [editItem, setEditItem] = useState<Shoe | null>(null); // State to hold item being edited
+  const [editItem, setEditItem] = useState<Shoe | null>(null);
   const adminContext = useContext(AdminContext);
   if (!adminContext) return;
   const { loggedIn, loading } = adminContext;
@@ -24,6 +24,8 @@ function Page() {
     url: string;
     price: string;
     desc: string;
+    url2: string;
+    url3: string;
   }
 
   useEffect(() => {
@@ -60,13 +62,19 @@ function Page() {
     itemId: string,
     newName: string,
     newPrice: string,
-    newDesc: string
+    newDesc: string,
+    newurl: string,
+    newurl2: string,
+    newurl3: string
   ) => {
     try {
       await updateDoc(doc(FIRESTORE_DB, "items", itemId), {
         name: newName,
         price: newPrice,
         desc: newDesc,
+        url: newurl,
+        url2: newurl2,
+        url3: newurl3,
       });
       setItems(
         items.map((item) =>
@@ -96,7 +104,6 @@ function Page() {
       </div>
     );
   }
-
   if (loading) {
     return (
       <div
@@ -131,12 +138,26 @@ function Page() {
             className="bg-white shadow-md h-[400px]  rounded-lg p-4"
           >
             <h2 className="text-lg font-semibold mb-2">{item.name}</h2>
-            <img
-              src={item.url}
-              alt={item.name}
-              className="mb-2 rounded-lg"
+            <div
+              className="flex overflow-x-scroll gap-1"
               style={{ width: "100%", height: "60%" }}
-            />
+            >
+              <img
+                src={item.url}
+                alt={item.name}
+                className="mb-2 rounded-lg w-[100%]"
+              />
+              <img
+                src={item.url2}
+                alt={item.name}
+                className="mb-2 rounded-lg"
+              />
+              <img
+                src={item.url3}
+                alt={item.name}
+                className="mb-2 rounded-lg"
+              />
+            </div>
             <p className="text-gray-700 mb-2">Price: ₹{item.price}</p>
             <div className="flex space-x-2">
               <button
@@ -176,12 +197,36 @@ function Page() {
               }
               className="mb-2 px-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <input
+              type="text"
+              value={editItem.url}
+              onChange={(e) =>
+                setEditItem({ ...editItem, url: e.target.value })
+              }
+              className="mb-2 px-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <input
+              type="text"
+              value={editItem.url2}
+              onChange={(e) =>
+                setEditItem({ ...editItem, url2: e.target.value })
+              }
+              className="mb-2 px-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+            <input
+              type="text"
+              value={editItem.url3}
+              onChange={(e) =>
+                setEditItem({ ...editItem, url3: e.target.value })
+              }
+              className="mb-2 px-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
             <textarea
               value={editItem.desc}
               onChange={(e) =>
                 setEditItem({ ...editItem, desc: e.target.value })
               }
-              className="mb-2 px-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mb-2 px-3 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-green-500"
             ></textarea>
             <div className="flex justify-end space-x-2">
               <button
@@ -190,10 +235,13 @@ function Page() {
                     editItem.id,
                     editItem.name,
                     editItem.price,
-                    editItem.desc
+                    editItem.desc,
+                    editItem.url,
+                    editItem.url2,
+                    editItem.url3
                   )
                 }
-                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
               >
                 Save
               </button>

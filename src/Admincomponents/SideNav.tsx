@@ -47,7 +47,7 @@ function SideNav() {
           href="/Coupons"
           className="text-2xl font-bold flex items-center text-gray-800 hover:text-blue-600 transition"
         >
-          <MdTag className="mr-2" /> Add Coupan
+          <MdTag className="mr-2" /> Add Coupon
         </Link>
 
         <Link href={"/"}>
