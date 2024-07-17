@@ -74,11 +74,11 @@ function Home() {
             />
           </div>
         </Link>
-        <div className="flex items-center gap-3 ml-2 sm:ml-10 xl:ml-10">
+        <div className="flex items-center gap-2 sm:ml-10 xl:ml-10">
           <input
             type="text"
             placeholder="Search shoe..."
-            className="border border-gray-100 p-1 sm:p-3 xl:p-4 outline-gray-500 rounded-full"
+            className="border border-gray-200 mr-2 xl:w-[600px] p-2 sm:p-3 xl:p-4 outline-gray-500 rounded-full"
             onChange={(e) => setShoename(e.target.value)}
           />
           <button
@@ -176,7 +176,7 @@ function Home() {
       </div>
 
       {shoename && (
-        <div className="absolute top-full left-0 bg-white border border-gray-200 rounded-lg p-4 shadow-lg w-full z-50 mt-2">
+        <div className="absolute top-full left-0 bg-white border border-gray-200  p-4 shadow-lg w-full z-50 ">
           {filteredItems.length > 0 ? (
             filteredItems.map((item) => (
               <Link
