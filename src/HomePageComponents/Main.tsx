@@ -94,32 +94,6 @@ function Home() {
           menuOpen ? "flex" : "hidden"
         } flex-col space-y-6 sm:space-y-0 sm:space-x-10 sm:flex sm:flex-row items-center w-full sm:w-auto mt-4 sm:mt-0 xl:space-y-0 xl:space-x-10 xl:flex xl:flex-row xl:w-auto xl:mt-0`}
       >
-        <div className="flex items-center flex-col gap-5 cursor-pointer sm:flex-row sm:gap-12 xl:flex-row xl:gap-12">
-          <Link href="/Men">
-            <span
-              className="text-gray-500 cursor-pointer"
-              onClick={() => setMenuOpen(false)}
-            >
-              Men
-            </span>
-          </Link>
-          <Link href="/Women">
-            <span
-              className="text-gray-500 cursor-pointer"
-              onClick={() => setMenuOpen(false)}
-            >
-              Women
-            </span>
-          </Link>
-          <Link href="/Kids">
-            <span
-              className="text-gray-500 cursor-pointer"
-              onClick={() => setMenuOpen(false)}
-            >
-              Kids
-            </span>
-          </Link>
-        </div>
         {user ? (
           <div
             className="flex items-center space-x-2"
