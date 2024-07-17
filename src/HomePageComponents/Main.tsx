@@ -78,7 +78,7 @@ function Home() {
           <input
             type="text"
             placeholder="Search shoe..."
-            className="border border-gray-200 mr-2 xl:w-[600px] p-2 sm:p-3 xl:p-4 outline-gray-500 rounded-full"
+            className="border border-gray-200 mr-2 xl:w-[500px] p-2 sm:p-3 xl:p-4 outline-gray-500 rounded-full"
             onChange={(e) => setShoename(e.target.value)}
           />
           <button
