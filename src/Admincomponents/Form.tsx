@@ -52,7 +52,7 @@ const Form: React.FC = () => {
     <div className="flex items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-lg m-4 bg-white rounded-lg shadow-lg p-8"
+        className=" max-w-xl m-4 bg-white rounded-lg shadow-lg p-8"
       >
         <h2 className="text-2xl mb-4 text-center font-semibold text-gray-800">Add New Shoe Item</h2>
         

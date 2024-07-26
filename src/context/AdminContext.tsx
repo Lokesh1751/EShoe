@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { FIRESTORE_DB } from "../../firebase.config";
 import { doc, getDoc,updateDoc } from "firebase/firestore";
 
@@ -20,6 +21,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const router=useRouter();
 
   useEffect(() => {
     const fetchAdminStatus = async () => {
@@ -50,6 +52,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({
         loggedIn: false,
       });
       setLoggedIn(false);
+      router.push("/")
     } catch (error) {
       console.error("Error updating document:", error);
     }

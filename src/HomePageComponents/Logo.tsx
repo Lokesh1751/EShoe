@@ -34,5 +34,3 @@ function Logo() {
 }
 
 export default Logo;
-//https://dynamic.zacdn.com/MDE5zP5BLl8cx2rQUc5Rqm487OQ=/filters:quality(70):format(webp)/https://static-ph.zacdn.com/p/twenty-eight-shoes-9298-9836472-5.jpg
-//https://img.ltwebstatic.com/images3_pi/2023/11/04/cd/169911196364e17da87ae54602a0fc8048f801f7d0_thumbnail_720x.webp

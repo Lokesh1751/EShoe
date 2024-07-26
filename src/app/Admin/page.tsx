@@ -1,8 +1,7 @@
 "use client";
 import React, { useContext } from "react";
 import { AdminContext } from "@/context/AdminContext";
-import SideNav from "@/Admincomponents/SideNav";
-import Form from "@/Admincomponents/Form";
+import Nav from "@/Admincomponents/Nav";
 import Link from "next/link";
 
 const Admin: React.FC = () => {
@@ -15,7 +14,7 @@ const Admin: React.FC = () => {
   if (loading) {
     return (
       <div
-        className="w-screen h-screen flex items-center justify-center text-white font-bold text-3xl"
+        className="w-screen h-screen items-center justify-center   text-white font-bold text-3xl"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
           backgroundSize: "cover",
@@ -30,7 +29,7 @@ const Admin: React.FC = () => {
 
   return (
     <div
-      className="w-full h-full p-6 flex flex-col items-center justify-center"
+      className="w-screen h-screen p-6 flex justify-center items-center"
       style={{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url(https://static.vecteezy.com/system/resources/thumbnails/023/219/700/small_2x/table-with-stack-of-stylish-sweaters-and-woman-s-shoes-on-grey-background-generative-ai-photo.jpg)`,
         backgroundSize: "cover",
@@ -40,8 +39,9 @@ const Admin: React.FC = () => {
     >
       {loggedIn ? (
         <div className="flex flex-col gap-5">
-          <SideNav />
-          <Form />
+          <h1 className="text-white text-5xl text-center font-bold">Admin DashBoard</h1>
+          <Nav />
+          {/* <Form /> */}
         </div>
       ) : (
         <div className="text-center flex items-center justify-center flex-col w-screen h-screen">

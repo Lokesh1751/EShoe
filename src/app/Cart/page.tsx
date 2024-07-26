@@ -45,9 +45,7 @@ const Cart: React.FC = () => {
       } else {
         alert(`Minimum price to apply this coupon is ₹${minPrice}`);
       }
-    } else {
-      alert("Invalid coupon code!");
-    }
+    } 
   };
 
   const handleApply = (coupon: string) => {
@@ -72,11 +70,11 @@ const Cart: React.FC = () => {
                   <img
                     src={item.url}
                     alt={item.name}
-                    className="w-20 h-20 object-cover rounded-md"
+                    className="w-[200px] h-[200px] object-cover rounded-md"
                   />
                   <div>
-                    <h3 className="text-lg font-medium">{item.name}</h3>
-                    <p className="text-gray-600">₹{item.price}</p>
+                    <h3 className="text-2xl font-medium">{item.name}</h3>
+                    <p className="text-gray-600 text-lg">₹{item.price}</p>
                   </div>
                 </div>
                 <button
