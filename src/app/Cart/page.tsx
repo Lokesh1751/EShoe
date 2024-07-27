@@ -45,12 +45,30 @@ const Cart: React.FC = () => {
       } else {
         alert(`Minimum price to apply this coupon is ₹${minPrice}`);
       }
-    } 
+    }
   };
 
   const handleApply = (coupon: string) => {
     setCouponCode(coupon);
     handleApplyCoupon();
+  };
+
+  const handleRemoveCoupon = () => {
+    setCouponCode("");
+    settprice(tprice / (1 - discount / 100));
+    setDiscount(0);
+    alert("Coupon removed successfully!");
+  };
+
+  const handleQuantityChange = (index: number, quantity: number) => {
+    const newCartItems = [...cartItems];
+    newCartItems[index].quantity = quantity;
+    cartContext.setCartItems(newCartItems);
+    const newTotalPrice = newCartItems.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+    settprice(newTotalPrice);
   };
 
   const discountedPrice = tprice - (tprice * discount) / 100;
@@ -74,7 +92,31 @@ const Cart: React.FC = () => {
                   />
                   <div>
                     <h3 className="text-2xl font-medium">{item.name}</h3>
-                    <p className="text-gray-600 text-lg">₹{item.price}</p>
+                    <p className="text-gray-600 text-lg">
+                      ₹{item.price * item.quantity}
+                    </p>
+                    <div className="flex gap-2 items-center">
+                      <button
+                        className="bg-gray-100 p-2 cursor-pointer"
+                        onClick={() =>
+                          handleQuantityChange(
+                            index,
+                            Math.max(1, item.quantity - 1)
+                          )
+                        }
+                      >
+                        -
+                      </button>
+                      <span>{item.quantity}</span>
+                      <button
+                        className="bg-gray-100 p-2 cursor-pointer"
+                        onClick={() =>
+                          handleQuantityChange(index, item.quantity + 1)
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <button
@@ -153,6 +195,14 @@ const Cart: React.FC = () => {
                   >
                     Apply
                   </button>
+                  {couponCode && (
+                    <button
+                      onClick={handleRemoveCoupon}
+                      className="bg-gray-600 text-white rounded-md px-4 py-2 ml-2"
+                    >
+                      Remove Coupon
+                    </button>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-5 mt-4 sm:flex-row sm:flex-wrap">
