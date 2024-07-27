@@ -19,6 +19,7 @@ interface CartItem {
   price: number;
   quantity: number;
   url: string;
+  size: number;
 }
 
 interface Shoe {
@@ -45,7 +46,7 @@ interface CartContextProps {
   setUser: React.Dispatch<React.SetStateAction<any | null>>;
   handleDeleteCartItem: (itemIndex: number) => Promise<void>;
   handleClearCart: () => Promise<void>;
-  handleOrderPlace: () => Promise<void>;
+  handleOrderPlace: (address: any) => Promise<void>;
   handleAddToCart: (shoe: Shoe, sze: number) => Promise<void>;
   handleAddToWishlist: (shoe: Shoe) => Promise<void>;
   handleDeletewishlistitem: (itemId: string) => Promise<void>;
@@ -83,13 +84,14 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
           querySnapshot.forEach((doc) => {
             const { items } = doc.data();
             items.forEach((item: any) => {
-              const { name, price, url, quantity = 1 } = item;
+              const { name, price, url, quantity = 1, size } = item; // Include size here
               const cartItem: CartItem = {
                 id: doc.id,
                 name,
                 price: Number(price),
                 quantity,
                 url,
+                size, // Include size here
               };
               cartItemsData.push(cartItem);
             });
@@ -120,7 +122,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             const { items } = doc.data();
             items.forEach((item: any) => {
               const { id, name, price, url } = item;
-              const wishlistItem: CartItem = {
+              const wishlistItem: any = {
                 id,
                 name,
                 price: Number(price),
@@ -236,12 +238,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const handleOrderPlace = async () => {
+  const handleOrderPlace = async (address: any) => {
     try {
       await addDoc(collection(FIRESTORE_DB, "orders"), {
         orderItems: cartItems,
         email: user.email,
         price: tprice,
+        orderaddress: address,
       });
       alert("Order Placed Successfully!!");
       handleClearCart();

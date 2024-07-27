@@ -10,23 +10,25 @@ interface OrderItem {
   price: number;
   quantity: number;
   url: string;
+  size: string;
 }
 
 interface Order {
   id: string;
   email: string;
   orderItems: OrderItem[];
-  price: number; // Ensure price is included
+  price: number;
+  orderaddress: string;
 }
 
 function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [loadingOrders, setLoadingOrders] = useState<boolean>(true); // Separate loading state
+  const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
 
   const adminContext = useContext(AdminContext);
 
   if (!adminContext) {
-    return null; // Return null if context is not available
+    return null;
   }
 
   const { loggedIn, loading, setLoading } = adminContext;
@@ -45,6 +47,7 @@ function OrdersPage() {
           email: doc.data().email,
           orderItems: doc.data().orderItems,
           price: doc.data().price, // Fetch the price from Firestore
+          orderaddress: doc.data().orderaddress, // Fetch the orderaddress from Firestore
         })) as Order[];
         console.log("Fetched Orders:", updatedOrders); // Debugging line
         setLoading(false);
@@ -115,6 +118,9 @@ function OrdersPage() {
               <h2 className="text-lg font-semibold mb-2">
                 Ordered by: {order.email}
               </h2>
+              <h2 className="text-lg font-semibold mb-2">
+                Address: {order.orderaddress}
+              </h2>
               <ul className="flex flex-col gap-4">
                 {order.orderItems.map((item) => (
                   <li key={item.id} className="flex items-center gap-4">
@@ -125,8 +131,8 @@ function OrdersPage() {
                     />
                     <div className="flex flex-col">
                       <p className="text-lg font-medium">{item.name}</p>
+                      <p className="text-lg font-medium">Size: {item.size}</p>
                       <p className="text-gray-600">Price: ₹{item.price}</p>
-                      <p className="text-gray-600">Quantity: {item.quantity}</p>
                     </div>
                   </li>
                 ))}
